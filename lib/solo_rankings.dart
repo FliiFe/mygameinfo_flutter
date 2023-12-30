@@ -6,7 +6,8 @@ import 'package:mygameinfo/store/module.dart';
 
 class SoloRankings extends StatelessWidget {
   final GameReport gameReport;
-  const SoloRankings({super.key, required this.gameReport});
+  final ShortGameReport shortReport;
+  const SoloRankings({super.key, required this.gameReport, required this.shortReport});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class SoloRankings extends StatelessWidget {
               title: Text(
                 userStats.alias ?? "N/A",
                 style: TextStyle(
-                  color: teamColors.elementAtOrNull(userStats.teamId ?? -1),
+                  color: shortReport.game == "solo" ? null : teamColors.elementAtOrNull(userStats.teamId ?? -1),
                   fontWeight:
                       userStats.omembId == userId ? FontWeight.bold : null,
                 ),

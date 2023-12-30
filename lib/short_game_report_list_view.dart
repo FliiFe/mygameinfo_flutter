@@ -53,6 +53,8 @@ class ShortGameReportListView extends StatelessWidget {
                   return;
                 }
                 showCupertinoModalBottomSheet(
+                  backgroundColor: CupertinoDynamicColor.resolve(
+                      CupertinoColors.secondarySystemGroupedBackground, context),
                   context: context,
                   builder: (ctx) => StoreProvider<AppState>(
                     store: StoreProvider.of<AppState>(context),
@@ -69,4 +71,3 @@ class ShortGameReportListView extends StatelessWidget {
     );
   }
 }
-
