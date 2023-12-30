@@ -146,3 +146,65 @@ Map<String, dynamic> _$$ShortGameReportImplToJson(
       'accuracy': instance.accuracy,
       'site_name': instance.siteName,
     };
+
+_$GameReportImpl _$$GameReportImplFromJson(Map<String, dynamic> json) =>
+    _$GameReportImpl(
+      userGames: (json['userGames'] as List<dynamic>?)
+          ?.map((e) => GameReportPlayerStat.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      teams: (json['teams'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as int),
+      ),
+    );
+
+Map<String, dynamic> _$$GameReportImplToJson(_$GameReportImpl instance) =>
+    <String, dynamic>{
+      'userGames': instance.userGames,
+      'teams': instance.teams,
+    };
+
+_$GameReportPlayerStatImpl _$$GameReportPlayerStatImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GameReportPlayerStatImpl(
+      qr: json['qr'] as String?,
+      omembId: json['omemb_id'] as int?,
+      score: json['score'] as int?,
+      teamId: json['team_id'] as int?,
+      rank: json['rank'] as int?,
+      tagsFor: json['tags_for'] as int?,
+      shotsFired: json['shots_fired'] as int?,
+      baseTags: json['base_tags'] as int?,
+      targetTags: json['target_tags'] as int?,
+      baseDestroys: json['base_destroys'] as int?,
+      tagsAgainst: json['tags_against'] as int?,
+      tagsAgainstMembers: json['tags_against_members'] as int?,
+      alias: json['alias'] as String?,
+      accuracy: (json['accuracy'] as num?)?.toDouble(),
+      avatar: json['avatar'] as String?,
+      photo: json['photo'] as String?,
+      photoUse: json['photo_use'] as int?,
+      photoApproved: json['photo_approved'] as int?,
+    );
+
+Map<String, dynamic> _$$GameReportPlayerStatImplToJson(
+        _$GameReportPlayerStatImpl instance) =>
+    <String, dynamic>{
+      'qr': instance.qr,
+      'omemb_id': instance.omembId,
+      'score': instance.score,
+      'team_id': instance.teamId,
+      'rank': instance.rank,
+      'tags_for': instance.tagsFor,
+      'shots_fired': instance.shotsFired,
+      'base_tags': instance.baseTags,
+      'target_tags': instance.targetTags,
+      'base_destroys': instance.baseDestroys,
+      'tags_against': instance.tagsAgainst,
+      'tags_against_members': instance.tagsAgainstMembers,
+      'alias': instance.alias,
+      'accuracy': instance.accuracy,
+      'avatar': instance.avatar,
+      'photo': instance.photo,
+      'photo_use': instance.photoUse,
+      'photo_approved': instance.photoApproved,
+    };

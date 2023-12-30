@@ -323,13 +323,14 @@ class __$$ApiLoginInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ApiLoginInfoImpl with DiagnosticableTreeMixin implements _ApiLoginInfo {
+class _$ApiLoginInfoImpl extends _ApiLoginInfo with DiagnosticableTreeMixin {
   const _$ApiLoginInfoImpl(
       {@JsonKey(name: 'user_id') required this.userId,
       @JsonKey(name: 'token') required this.token,
       @JsonKey(name: 'expires_at') required this.expiresAt,
       @JsonKey(name: 'alias') required this.alias,
-      @JsonKey(name: 'avatar') required this.avatar});
+      @JsonKey(name: 'avatar') required this.avatar})
+      : super._();
 
   factory _$ApiLoginInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ApiLoginInfoImplFromJson(json);
@@ -399,7 +400,7 @@ class _$ApiLoginInfoImpl with DiagnosticableTreeMixin implements _ApiLoginInfo {
   }
 }
 
-abstract class _ApiLoginInfo implements ApiLoginInfo {
+abstract class _ApiLoginInfo extends ApiLoginInfo {
   const factory _ApiLoginInfo(
           {@JsonKey(name: 'user_id') required final int? userId,
           @JsonKey(name: 'token') required final String? token,
@@ -407,6 +408,7 @@ abstract class _ApiLoginInfo implements ApiLoginInfo {
           @JsonKey(name: 'alias') required final String? alias,
           @JsonKey(name: 'avatar') required final String? avatar}) =
       _$ApiLoginInfoImpl;
+  const _ApiLoginInfo._() : super._();
 
   factory _ApiLoginInfo.fromJson(Map<String, dynamic> json) =
       _$ApiLoginInfoImpl.fromJson;
@@ -1834,4 +1836,795 @@ abstract class _ShortGameReport implements ShortGameReport {
   @JsonKey(ignore: true)
   _$$ShortGameReportImplCopyWith<_$ShortGameReportImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+GameReport _$GameReportFromJson(Map<String, dynamic> json) {
+  return _GameReport.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GameReport {
+  @JsonKey(name: 'userGames')
+  List<GameReportPlayerStat>? get userGames =>
+      throw _privateConstructorUsedError;
+  @JsonKey(name: 'teams')
+  Map<String, int>? get teams => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GameReportCopyWith<GameReport> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GameReportCopyWith<$Res> {
+  factory $GameReportCopyWith(
+          GameReport value, $Res Function(GameReport) then) =
+      _$GameReportCopyWithImpl<$Res, GameReport>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'userGames') List<GameReportPlayerStat>? userGames,
+      @JsonKey(name: 'teams') Map<String, int>? teams});
+}
+
+/// @nodoc
+class _$GameReportCopyWithImpl<$Res, $Val extends GameReport>
+    implements $GameReportCopyWith<$Res> {
+  _$GameReportCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userGames = freezed,
+    Object? teams = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userGames: freezed == userGames
+          ? _value.userGames
+          : userGames // ignore: cast_nullable_to_non_nullable
+              as List<GameReportPlayerStat>?,
+      teams: freezed == teams
+          ? _value.teams
+          : teams // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GameReportImplCopyWith<$Res>
+    implements $GameReportCopyWith<$Res> {
+  factory _$$GameReportImplCopyWith(
+          _$GameReportImpl value, $Res Function(_$GameReportImpl) then) =
+      __$$GameReportImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'userGames') List<GameReportPlayerStat>? userGames,
+      @JsonKey(name: 'teams') Map<String, int>? teams});
+}
+
+/// @nodoc
+class __$$GameReportImplCopyWithImpl<$Res>
+    extends _$GameReportCopyWithImpl<$Res, _$GameReportImpl>
+    implements _$$GameReportImplCopyWith<$Res> {
+  __$$GameReportImplCopyWithImpl(
+      _$GameReportImpl _value, $Res Function(_$GameReportImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userGames = freezed,
+    Object? teams = freezed,
+  }) {
+    return _then(_$GameReportImpl(
+      userGames: freezed == userGames
+          ? _value._userGames
+          : userGames // ignore: cast_nullable_to_non_nullable
+              as List<GameReportPlayerStat>?,
+      teams: freezed == teams
+          ? _value._teams
+          : teams // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GameReportImpl with DiagnosticableTreeMixin implements _GameReport {
+  const _$GameReportImpl(
+      {@JsonKey(name: 'userGames') final List<GameReportPlayerStat>? userGames,
+      @JsonKey(name: 'teams') final Map<String, int>? teams})
+      : _userGames = userGames,
+        _teams = teams;
+
+  factory _$GameReportImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GameReportImplFromJson(json);
+
+  final List<GameReportPlayerStat>? _userGames;
+  @override
+  @JsonKey(name: 'userGames')
+  List<GameReportPlayerStat>? get userGames {
+    final value = _userGames;
+    if (value == null) return null;
+    if (_userGames is EqualUnmodifiableListView) return _userGames;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final Map<String, int>? _teams;
+  @override
+  @JsonKey(name: 'teams')
+  Map<String, int>? get teams {
+    final value = _teams;
+    if (value == null) return null;
+    if (_teams is EqualUnmodifiableMapView) return _teams;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'GameReport(userGames: $userGames, teams: $teams)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'GameReport'))
+      ..add(DiagnosticsProperty('userGames', userGames))
+      ..add(DiagnosticsProperty('teams', teams));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GameReportImpl &&
+            const DeepCollectionEquality()
+                .equals(other._userGames, _userGames) &&
+            const DeepCollectionEquality().equals(other._teams, _teams));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_userGames),
+      const DeepCollectionEquality().hash(_teams));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GameReportImplCopyWith<_$GameReportImpl> get copyWith =>
+      __$$GameReportImplCopyWithImpl<_$GameReportImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GameReportImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GameReport implements GameReport {
+  const factory _GameReport(
+      {@JsonKey(name: 'userGames') final List<GameReportPlayerStat>? userGames,
+      @JsonKey(name: 'teams')
+      final Map<String, int>? teams}) = _$GameReportImpl;
+
+  factory _GameReport.fromJson(Map<String, dynamic> json) =
+      _$GameReportImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'userGames')
+  List<GameReportPlayerStat>? get userGames;
+  @override
+  @JsonKey(name: 'teams')
+  Map<String, int>? get teams;
+  @override
+  @JsonKey(ignore: true)
+  _$$GameReportImplCopyWith<_$GameReportImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GameReportPlayerStat _$GameReportPlayerStatFromJson(Map<String, dynamic> json) {
+  return _GameReportPlayerStat.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GameReportPlayerStat {
+  @JsonKey(name: 'qr')
+  String? get qr => throw _privateConstructorUsedError;
+  @JsonKey(name: 'omemb_id')
+  int? get omembId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'score')
+  int? get score => throw _privateConstructorUsedError;
+  @JsonKey(name: 'team_id')
+  int? get teamId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'rank')
+  int? get rank => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tags_for')
+  int? get tagsFor => throw _privateConstructorUsedError;
+  @JsonKey(name: 'shots_fired')
+  int? get shotsFired => throw _privateConstructorUsedError;
+  @JsonKey(name: 'base_tags')
+  int? get baseTags => throw _privateConstructorUsedError;
+  @JsonKey(name: 'target_tags')
+  int? get targetTags => throw _privateConstructorUsedError;
+  @JsonKey(name: 'base_destroys')
+  int? get baseDestroys => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tags_against')
+  int? get tagsAgainst => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tags_against_members')
+  int? get tagsAgainstMembers => throw _privateConstructorUsedError;
+  @JsonKey(name: 'alias')
+  String? get alias => throw _privateConstructorUsedError;
+  @JsonKey(name: 'accuracy')
+  double? get accuracy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar')
+  String? get avatar => throw _privateConstructorUsedError;
+  @JsonKey(name: 'photo')
+  String? get photo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'photo_use')
+  int? get photoUse => throw _privateConstructorUsedError;
+  @JsonKey(name: 'photo_approved')
+  int? get photoApproved => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GameReportPlayerStatCopyWith<GameReportPlayerStat> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GameReportPlayerStatCopyWith<$Res> {
+  factory $GameReportPlayerStatCopyWith(GameReportPlayerStat value,
+          $Res Function(GameReportPlayerStat) then) =
+      _$GameReportPlayerStatCopyWithImpl<$Res, GameReportPlayerStat>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'qr') String? qr,
+      @JsonKey(name: 'omemb_id') int? omembId,
+      @JsonKey(name: 'score') int? score,
+      @JsonKey(name: 'team_id') int? teamId,
+      @JsonKey(name: 'rank') int? rank,
+      @JsonKey(name: 'tags_for') int? tagsFor,
+      @JsonKey(name: 'shots_fired') int? shotsFired,
+      @JsonKey(name: 'base_tags') int? baseTags,
+      @JsonKey(name: 'target_tags') int? targetTags,
+      @JsonKey(name: 'base_destroys') int? baseDestroys,
+      @JsonKey(name: 'tags_against') int? tagsAgainst,
+      @JsonKey(name: 'tags_against_members') int? tagsAgainstMembers,
+      @JsonKey(name: 'alias') String? alias,
+      @JsonKey(name: 'accuracy') double? accuracy,
+      @JsonKey(name: 'avatar') String? avatar,
+      @JsonKey(name: 'photo') String? photo,
+      @JsonKey(name: 'photo_use') int? photoUse,
+      @JsonKey(name: 'photo_approved') int? photoApproved});
+}
+
+/// @nodoc
+class _$GameReportPlayerStatCopyWithImpl<$Res,
+        $Val extends GameReportPlayerStat>
+    implements $GameReportPlayerStatCopyWith<$Res> {
+  _$GameReportPlayerStatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? qr = freezed,
+    Object? omembId = freezed,
+    Object? score = freezed,
+    Object? teamId = freezed,
+    Object? rank = freezed,
+    Object? tagsFor = freezed,
+    Object? shotsFired = freezed,
+    Object? baseTags = freezed,
+    Object? targetTags = freezed,
+    Object? baseDestroys = freezed,
+    Object? tagsAgainst = freezed,
+    Object? tagsAgainstMembers = freezed,
+    Object? alias = freezed,
+    Object? accuracy = freezed,
+    Object? avatar = freezed,
+    Object? photo = freezed,
+    Object? photoUse = freezed,
+    Object? photoApproved = freezed,
+  }) {
+    return _then(_value.copyWith(
+      qr: freezed == qr
+          ? _value.qr
+          : qr // ignore: cast_nullable_to_non_nullable
+              as String?,
+      omembId: freezed == omembId
+          ? _value.omembId
+          : omembId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      score: freezed == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as int?,
+      teamId: freezed == teamId
+          ? _value.teamId
+          : teamId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      rank: freezed == rank
+          ? _value.rank
+          : rank // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tagsFor: freezed == tagsFor
+          ? _value.tagsFor
+          : tagsFor // ignore: cast_nullable_to_non_nullable
+              as int?,
+      shotsFired: freezed == shotsFired
+          ? _value.shotsFired
+          : shotsFired // ignore: cast_nullable_to_non_nullable
+              as int?,
+      baseTags: freezed == baseTags
+          ? _value.baseTags
+          : baseTags // ignore: cast_nullable_to_non_nullable
+              as int?,
+      targetTags: freezed == targetTags
+          ? _value.targetTags
+          : targetTags // ignore: cast_nullable_to_non_nullable
+              as int?,
+      baseDestroys: freezed == baseDestroys
+          ? _value.baseDestroys
+          : baseDestroys // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tagsAgainst: freezed == tagsAgainst
+          ? _value.tagsAgainst
+          : tagsAgainst // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tagsAgainstMembers: freezed == tagsAgainstMembers
+          ? _value.tagsAgainstMembers
+          : tagsAgainstMembers // ignore: cast_nullable_to_non_nullable
+              as int?,
+      alias: freezed == alias
+          ? _value.alias
+          : alias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      accuracy: freezed == accuracy
+          ? _value.accuracy
+          : accuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photo: freezed == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photoUse: freezed == photoUse
+          ? _value.photoUse
+          : photoUse // ignore: cast_nullable_to_non_nullable
+              as int?,
+      photoApproved: freezed == photoApproved
+          ? _value.photoApproved
+          : photoApproved // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GameReportPlayerStatImplCopyWith<$Res>
+    implements $GameReportPlayerStatCopyWith<$Res> {
+  factory _$$GameReportPlayerStatImplCopyWith(_$GameReportPlayerStatImpl value,
+          $Res Function(_$GameReportPlayerStatImpl) then) =
+      __$$GameReportPlayerStatImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'qr') String? qr,
+      @JsonKey(name: 'omemb_id') int? omembId,
+      @JsonKey(name: 'score') int? score,
+      @JsonKey(name: 'team_id') int? teamId,
+      @JsonKey(name: 'rank') int? rank,
+      @JsonKey(name: 'tags_for') int? tagsFor,
+      @JsonKey(name: 'shots_fired') int? shotsFired,
+      @JsonKey(name: 'base_tags') int? baseTags,
+      @JsonKey(name: 'target_tags') int? targetTags,
+      @JsonKey(name: 'base_destroys') int? baseDestroys,
+      @JsonKey(name: 'tags_against') int? tagsAgainst,
+      @JsonKey(name: 'tags_against_members') int? tagsAgainstMembers,
+      @JsonKey(name: 'alias') String? alias,
+      @JsonKey(name: 'accuracy') double? accuracy,
+      @JsonKey(name: 'avatar') String? avatar,
+      @JsonKey(name: 'photo') String? photo,
+      @JsonKey(name: 'photo_use') int? photoUse,
+      @JsonKey(name: 'photo_approved') int? photoApproved});
+}
+
+/// @nodoc
+class __$$GameReportPlayerStatImplCopyWithImpl<$Res>
+    extends _$GameReportPlayerStatCopyWithImpl<$Res, _$GameReportPlayerStatImpl>
+    implements _$$GameReportPlayerStatImplCopyWith<$Res> {
+  __$$GameReportPlayerStatImplCopyWithImpl(_$GameReportPlayerStatImpl _value,
+      $Res Function(_$GameReportPlayerStatImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? qr = freezed,
+    Object? omembId = freezed,
+    Object? score = freezed,
+    Object? teamId = freezed,
+    Object? rank = freezed,
+    Object? tagsFor = freezed,
+    Object? shotsFired = freezed,
+    Object? baseTags = freezed,
+    Object? targetTags = freezed,
+    Object? baseDestroys = freezed,
+    Object? tagsAgainst = freezed,
+    Object? tagsAgainstMembers = freezed,
+    Object? alias = freezed,
+    Object? accuracy = freezed,
+    Object? avatar = freezed,
+    Object? photo = freezed,
+    Object? photoUse = freezed,
+    Object? photoApproved = freezed,
+  }) {
+    return _then(_$GameReportPlayerStatImpl(
+      qr: freezed == qr
+          ? _value.qr
+          : qr // ignore: cast_nullable_to_non_nullable
+              as String?,
+      omembId: freezed == omembId
+          ? _value.omembId
+          : omembId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      score: freezed == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as int?,
+      teamId: freezed == teamId
+          ? _value.teamId
+          : teamId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      rank: freezed == rank
+          ? _value.rank
+          : rank // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tagsFor: freezed == tagsFor
+          ? _value.tagsFor
+          : tagsFor // ignore: cast_nullable_to_non_nullable
+              as int?,
+      shotsFired: freezed == shotsFired
+          ? _value.shotsFired
+          : shotsFired // ignore: cast_nullable_to_non_nullable
+              as int?,
+      baseTags: freezed == baseTags
+          ? _value.baseTags
+          : baseTags // ignore: cast_nullable_to_non_nullable
+              as int?,
+      targetTags: freezed == targetTags
+          ? _value.targetTags
+          : targetTags // ignore: cast_nullable_to_non_nullable
+              as int?,
+      baseDestroys: freezed == baseDestroys
+          ? _value.baseDestroys
+          : baseDestroys // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tagsAgainst: freezed == tagsAgainst
+          ? _value.tagsAgainst
+          : tagsAgainst // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tagsAgainstMembers: freezed == tagsAgainstMembers
+          ? _value.tagsAgainstMembers
+          : tagsAgainstMembers // ignore: cast_nullable_to_non_nullable
+              as int?,
+      alias: freezed == alias
+          ? _value.alias
+          : alias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      accuracy: freezed == accuracy
+          ? _value.accuracy
+          : accuracy // ignore: cast_nullable_to_non_nullable
+              as double?,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photo: freezed == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photoUse: freezed == photoUse
+          ? _value.photoUse
+          : photoUse // ignore: cast_nullable_to_non_nullable
+              as int?,
+      photoApproved: freezed == photoApproved
+          ? _value.photoApproved
+          : photoApproved // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GameReportPlayerStatImpl
+    with DiagnosticableTreeMixin
+    implements _GameReportPlayerStat {
+  const _$GameReportPlayerStatImpl(
+      {@JsonKey(name: 'qr') this.qr,
+      @JsonKey(name: 'omemb_id') this.omembId,
+      @JsonKey(name: 'score') this.score,
+      @JsonKey(name: 'team_id') this.teamId,
+      @JsonKey(name: 'rank') this.rank,
+      @JsonKey(name: 'tags_for') this.tagsFor,
+      @JsonKey(name: 'shots_fired') this.shotsFired,
+      @JsonKey(name: 'base_tags') this.baseTags,
+      @JsonKey(name: 'target_tags') this.targetTags,
+      @JsonKey(name: 'base_destroys') this.baseDestroys,
+      @JsonKey(name: 'tags_against') this.tagsAgainst,
+      @JsonKey(name: 'tags_against_members') this.tagsAgainstMembers,
+      @JsonKey(name: 'alias') this.alias,
+      @JsonKey(name: 'accuracy') this.accuracy,
+      @JsonKey(name: 'avatar') this.avatar,
+      @JsonKey(name: 'photo') this.photo,
+      @JsonKey(name: 'photo_use') this.photoUse,
+      @JsonKey(name: 'photo_approved') this.photoApproved});
+
+  factory _$GameReportPlayerStatImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GameReportPlayerStatImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'qr')
+  final String? qr;
+  @override
+  @JsonKey(name: 'omemb_id')
+  final int? omembId;
+  @override
+  @JsonKey(name: 'score')
+  final int? score;
+  @override
+  @JsonKey(name: 'team_id')
+  final int? teamId;
+  @override
+  @JsonKey(name: 'rank')
+  final int? rank;
+  @override
+  @JsonKey(name: 'tags_for')
+  final int? tagsFor;
+  @override
+  @JsonKey(name: 'shots_fired')
+  final int? shotsFired;
+  @override
+  @JsonKey(name: 'base_tags')
+  final int? baseTags;
+  @override
+  @JsonKey(name: 'target_tags')
+  final int? targetTags;
+  @override
+  @JsonKey(name: 'base_destroys')
+  final int? baseDestroys;
+  @override
+  @JsonKey(name: 'tags_against')
+  final int? tagsAgainst;
+  @override
+  @JsonKey(name: 'tags_against_members')
+  final int? tagsAgainstMembers;
+  @override
+  @JsonKey(name: 'alias')
+  final String? alias;
+  @override
+  @JsonKey(name: 'accuracy')
+  final double? accuracy;
+  @override
+  @JsonKey(name: 'avatar')
+  final String? avatar;
+  @override
+  @JsonKey(name: 'photo')
+  final String? photo;
+  @override
+  @JsonKey(name: 'photo_use')
+  final int? photoUse;
+  @override
+  @JsonKey(name: 'photo_approved')
+  final int? photoApproved;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'GameReportPlayerStat(qr: $qr, omembId: $omembId, score: $score, teamId: $teamId, rank: $rank, tagsFor: $tagsFor, shotsFired: $shotsFired, baseTags: $baseTags, targetTags: $targetTags, baseDestroys: $baseDestroys, tagsAgainst: $tagsAgainst, tagsAgainstMembers: $tagsAgainstMembers, alias: $alias, accuracy: $accuracy, avatar: $avatar, photo: $photo, photoUse: $photoUse, photoApproved: $photoApproved)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'GameReportPlayerStat'))
+      ..add(DiagnosticsProperty('qr', qr))
+      ..add(DiagnosticsProperty('omembId', omembId))
+      ..add(DiagnosticsProperty('score', score))
+      ..add(DiagnosticsProperty('teamId', teamId))
+      ..add(DiagnosticsProperty('rank', rank))
+      ..add(DiagnosticsProperty('tagsFor', tagsFor))
+      ..add(DiagnosticsProperty('shotsFired', shotsFired))
+      ..add(DiagnosticsProperty('baseTags', baseTags))
+      ..add(DiagnosticsProperty('targetTags', targetTags))
+      ..add(DiagnosticsProperty('baseDestroys', baseDestroys))
+      ..add(DiagnosticsProperty('tagsAgainst', tagsAgainst))
+      ..add(DiagnosticsProperty('tagsAgainstMembers', tagsAgainstMembers))
+      ..add(DiagnosticsProperty('alias', alias))
+      ..add(DiagnosticsProperty('accuracy', accuracy))
+      ..add(DiagnosticsProperty('avatar', avatar))
+      ..add(DiagnosticsProperty('photo', photo))
+      ..add(DiagnosticsProperty('photoUse', photoUse))
+      ..add(DiagnosticsProperty('photoApproved', photoApproved));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GameReportPlayerStatImpl &&
+            (identical(other.qr, qr) || other.qr == qr) &&
+            (identical(other.omembId, omembId) || other.omembId == omembId) &&
+            (identical(other.score, score) || other.score == score) &&
+            (identical(other.teamId, teamId) || other.teamId == teamId) &&
+            (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.tagsFor, tagsFor) || other.tagsFor == tagsFor) &&
+            (identical(other.shotsFired, shotsFired) ||
+                other.shotsFired == shotsFired) &&
+            (identical(other.baseTags, baseTags) ||
+                other.baseTags == baseTags) &&
+            (identical(other.targetTags, targetTags) ||
+                other.targetTags == targetTags) &&
+            (identical(other.baseDestroys, baseDestroys) ||
+                other.baseDestroys == baseDestroys) &&
+            (identical(other.tagsAgainst, tagsAgainst) ||
+                other.tagsAgainst == tagsAgainst) &&
+            (identical(other.tagsAgainstMembers, tagsAgainstMembers) ||
+                other.tagsAgainstMembers == tagsAgainstMembers) &&
+            (identical(other.alias, alias) || other.alias == alias) &&
+            (identical(other.accuracy, accuracy) ||
+                other.accuracy == accuracy) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.photo, photo) || other.photo == photo) &&
+            (identical(other.photoUse, photoUse) ||
+                other.photoUse == photoUse) &&
+            (identical(other.photoApproved, photoApproved) ||
+                other.photoApproved == photoApproved));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      qr,
+      omembId,
+      score,
+      teamId,
+      rank,
+      tagsFor,
+      shotsFired,
+      baseTags,
+      targetTags,
+      baseDestroys,
+      tagsAgainst,
+      tagsAgainstMembers,
+      alias,
+      accuracy,
+      avatar,
+      photo,
+      photoUse,
+      photoApproved);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GameReportPlayerStatImplCopyWith<_$GameReportPlayerStatImpl>
+      get copyWith =>
+          __$$GameReportPlayerStatImplCopyWithImpl<_$GameReportPlayerStatImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GameReportPlayerStatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GameReportPlayerStat implements GameReportPlayerStat {
+  const factory _GameReportPlayerStat(
+          {@JsonKey(name: 'qr') final String? qr,
+          @JsonKey(name: 'omemb_id') final int? omembId,
+          @JsonKey(name: 'score') final int? score,
+          @JsonKey(name: 'team_id') final int? teamId,
+          @JsonKey(name: 'rank') final int? rank,
+          @JsonKey(name: 'tags_for') final int? tagsFor,
+          @JsonKey(name: 'shots_fired') final int? shotsFired,
+          @JsonKey(name: 'base_tags') final int? baseTags,
+          @JsonKey(name: 'target_tags') final int? targetTags,
+          @JsonKey(name: 'base_destroys') final int? baseDestroys,
+          @JsonKey(name: 'tags_against') final int? tagsAgainst,
+          @JsonKey(name: 'tags_against_members') final int? tagsAgainstMembers,
+          @JsonKey(name: 'alias') final String? alias,
+          @JsonKey(name: 'accuracy') final double? accuracy,
+          @JsonKey(name: 'avatar') final String? avatar,
+          @JsonKey(name: 'photo') final String? photo,
+          @JsonKey(name: 'photo_use') final int? photoUse,
+          @JsonKey(name: 'photo_approved') final int? photoApproved}) =
+      _$GameReportPlayerStatImpl;
+
+  factory _GameReportPlayerStat.fromJson(Map<String, dynamic> json) =
+      _$GameReportPlayerStatImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'qr')
+  String? get qr;
+  @override
+  @JsonKey(name: 'omemb_id')
+  int? get omembId;
+  @override
+  @JsonKey(name: 'score')
+  int? get score;
+  @override
+  @JsonKey(name: 'team_id')
+  int? get teamId;
+  @override
+  @JsonKey(name: 'rank')
+  int? get rank;
+  @override
+  @JsonKey(name: 'tags_for')
+  int? get tagsFor;
+  @override
+  @JsonKey(name: 'shots_fired')
+  int? get shotsFired;
+  @override
+  @JsonKey(name: 'base_tags')
+  int? get baseTags;
+  @override
+  @JsonKey(name: 'target_tags')
+  int? get targetTags;
+  @override
+  @JsonKey(name: 'base_destroys')
+  int? get baseDestroys;
+  @override
+  @JsonKey(name: 'tags_against')
+  int? get tagsAgainst;
+  @override
+  @JsonKey(name: 'tags_against_members')
+  int? get tagsAgainstMembers;
+  @override
+  @JsonKey(name: 'alias')
+  String? get alias;
+  @override
+  @JsonKey(name: 'accuracy')
+  double? get accuracy;
+  @override
+  @JsonKey(name: 'avatar')
+  String? get avatar;
+  @override
+  @JsonKey(name: 'photo')
+  String? get photo;
+  @override
+  @JsonKey(name: 'photo_use')
+  int? get photoUse;
+  @override
+  @JsonKey(name: 'photo_approved')
+  int? get photoApproved;
+  @override
+  @JsonKey(ignore: true)
+  _$$GameReportPlayerStatImplCopyWith<_$GameReportPlayerStatImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -1,11 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/home_tab.dart';
-import 'package:mygameinfo/reports_tab.dart';
-import 'package:mygameinfo/achievements_tab.dart';
-import 'package:mygameinfo/settings_tab.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:redux/redux.dart';
 
@@ -42,43 +38,9 @@ class MyGameInfoHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.memories),
-            label: 'Reports',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.rosette),
-            label: 'Achievements',
-          ),
-        ],
-      ),
-      tabBuilder: (context, index) {
-        return switch (index) {
-          0 => CupertinoTabView(
-              builder: (context) => const CupertinoPageScaffold(
-                child: HomeTab(),
-              ),
-            ),
-          1 => CupertinoTabView(
-              builder: (context) => const CupertinoPageScaffold(
-                child: GameReportsTab(),
-              ),
-            ),
-          2 => CupertinoTabView(
-              builder: (context) => const CupertinoPageScaffold(
-                child: AchievementsTab(),
-              ),
-            ),
-          _ => throw Exception('Invalid index $index'),
-        };
-      },
+    return CupertinoPageScaffold(
+      backgroundColor: CupertinoDynamicColor.resolve(CupertinoColors.systemGroupedBackground, context),
+      child: const HomeTab(),
     );
   }
 }

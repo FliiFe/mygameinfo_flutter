@@ -1226,3 +1226,408 @@ abstract class _RegisterCDNInfoAction implements RegisterCDNInfoAction {
   _$$RegisterCDNInfoActionImplCopyWith<_$RegisterCDNInfoActionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$RegisterGameReport {
+  GameReport get report => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $RegisterGameReportCopyWith<RegisterGameReport> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RegisterGameReportCopyWith<$Res> {
+  factory $RegisterGameReportCopyWith(
+          RegisterGameReport value, $Res Function(RegisterGameReport) then) =
+      _$RegisterGameReportCopyWithImpl<$Res, RegisterGameReport>;
+  @useResult
+  $Res call({GameReport report, int id});
+
+  $GameReportCopyWith<$Res> get report;
+}
+
+/// @nodoc
+class _$RegisterGameReportCopyWithImpl<$Res, $Val extends RegisterGameReport>
+    implements $RegisterGameReportCopyWith<$Res> {
+  _$RegisterGameReportCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? report = null,
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      report: null == report
+          ? _value.report
+          : report // ignore: cast_nullable_to_non_nullable
+              as GameReport,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $GameReportCopyWith<$Res> get report {
+    return $GameReportCopyWith<$Res>(_value.report, (value) {
+      return _then(_value.copyWith(report: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$RegisterGameReportImplCopyWith<$Res>
+    implements $RegisterGameReportCopyWith<$Res> {
+  factory _$$RegisterGameReportImplCopyWith(_$RegisterGameReportImpl value,
+          $Res Function(_$RegisterGameReportImpl) then) =
+      __$$RegisterGameReportImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({GameReport report, int id});
+
+  @override
+  $GameReportCopyWith<$Res> get report;
+}
+
+/// @nodoc
+class __$$RegisterGameReportImplCopyWithImpl<$Res>
+    extends _$RegisterGameReportCopyWithImpl<$Res, _$RegisterGameReportImpl>
+    implements _$$RegisterGameReportImplCopyWith<$Res> {
+  __$$RegisterGameReportImplCopyWithImpl(_$RegisterGameReportImpl _value,
+      $Res Function(_$RegisterGameReportImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? report = null,
+    Object? id = null,
+  }) {
+    return _then(_$RegisterGameReportImpl(
+      report: null == report
+          ? _value.report
+          : report // ignore: cast_nullable_to_non_nullable
+              as GameReport,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RegisterGameReportImpl implements _RegisterGameReport {
+  const _$RegisterGameReportImpl({required this.report, required this.id});
+
+  @override
+  final GameReport report;
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'RegisterGameReport(report: $report, id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RegisterGameReportImpl &&
+            (identical(other.report, report) || other.report == report) &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, report, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RegisterGameReportImplCopyWith<_$RegisterGameReportImpl> get copyWith =>
+      __$$RegisterGameReportImplCopyWithImpl<_$RegisterGameReportImpl>(
+          this, _$identity);
+}
+
+abstract class _RegisterGameReport implements RegisterGameReport {
+  const factory _RegisterGameReport(
+      {required final GameReport report,
+      required final int id}) = _$RegisterGameReportImpl;
+
+  @override
+  GameReport get report;
+  @override
+  int get id;
+  @override
+  @JsonKey(ignore: true)
+  _$$RegisterGameReportImplCopyWith<_$RegisterGameReportImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$FetchGameReport {
+  ShortGameReport get shortReport => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $FetchGameReportCopyWith<FetchGameReport> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FetchGameReportCopyWith<$Res> {
+  factory $FetchGameReportCopyWith(
+          FetchGameReport value, $Res Function(FetchGameReport) then) =
+      _$FetchGameReportCopyWithImpl<$Res, FetchGameReport>;
+  @useResult
+  $Res call({ShortGameReport shortReport});
+
+  $ShortGameReportCopyWith<$Res> get shortReport;
+}
+
+/// @nodoc
+class _$FetchGameReportCopyWithImpl<$Res, $Val extends FetchGameReport>
+    implements $FetchGameReportCopyWith<$Res> {
+  _$FetchGameReportCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? shortReport = null,
+  }) {
+    return _then(_value.copyWith(
+      shortReport: null == shortReport
+          ? _value.shortReport
+          : shortReport // ignore: cast_nullable_to_non_nullable
+              as ShortGameReport,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ShortGameReportCopyWith<$Res> get shortReport {
+    return $ShortGameReportCopyWith<$Res>(_value.shortReport, (value) {
+      return _then(_value.copyWith(shortReport: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$FetchGameReportImplCopyWith<$Res>
+    implements $FetchGameReportCopyWith<$Res> {
+  factory _$$FetchGameReportImplCopyWith(_$FetchGameReportImpl value,
+          $Res Function(_$FetchGameReportImpl) then) =
+      __$$FetchGameReportImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ShortGameReport shortReport});
+
+  @override
+  $ShortGameReportCopyWith<$Res> get shortReport;
+}
+
+/// @nodoc
+class __$$FetchGameReportImplCopyWithImpl<$Res>
+    extends _$FetchGameReportCopyWithImpl<$Res, _$FetchGameReportImpl>
+    implements _$$FetchGameReportImplCopyWith<$Res> {
+  __$$FetchGameReportImplCopyWithImpl(
+      _$FetchGameReportImpl _value, $Res Function(_$FetchGameReportImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? shortReport = null,
+  }) {
+    return _then(_$FetchGameReportImpl(
+      shortReport: null == shortReport
+          ? _value.shortReport
+          : shortReport // ignore: cast_nullable_to_non_nullable
+              as ShortGameReport,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FetchGameReportImpl implements _FetchGameReport {
+  const _$FetchGameReportImpl({required this.shortReport});
+
+  @override
+  final ShortGameReport shortReport;
+
+  @override
+  String toString() {
+    return 'FetchGameReport(shortReport: $shortReport)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FetchGameReportImpl &&
+            (identical(other.shortReport, shortReport) ||
+                other.shortReport == shortReport));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, shortReport);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FetchGameReportImplCopyWith<_$FetchGameReportImpl> get copyWith =>
+      __$$FetchGameReportImplCopyWithImpl<_$FetchGameReportImpl>(
+          this, _$identity);
+}
+
+abstract class _FetchGameReport implements FetchGameReport {
+  const factory _FetchGameReport({required final ShortGameReport shortReport}) =
+      _$FetchGameReportImpl;
+
+  @override
+  ShortGameReport get shortReport;
+  @override
+  @JsonKey(ignore: true)
+  _$$FetchGameReportImplCopyWith<_$FetchGameReportImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$LoginThenActionAction {
+  dynamic get action => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $LoginThenActionActionCopyWith<LoginThenActionAction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LoginThenActionActionCopyWith<$Res> {
+  factory $LoginThenActionActionCopyWith(LoginThenActionAction value,
+          $Res Function(LoginThenActionAction) then) =
+      _$LoginThenActionActionCopyWithImpl<$Res, LoginThenActionAction>;
+  @useResult
+  $Res call({dynamic action});
+}
+
+/// @nodoc
+class _$LoginThenActionActionCopyWithImpl<$Res,
+        $Val extends LoginThenActionAction>
+    implements $LoginThenActionActionCopyWith<$Res> {
+  _$LoginThenActionActionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? action = freezed,
+  }) {
+    return _then(_value.copyWith(
+      action: freezed == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LoginThenActionActionImplCopyWith<$Res>
+    implements $LoginThenActionActionCopyWith<$Res> {
+  factory _$$LoginThenActionActionImplCopyWith(
+          _$LoginThenActionActionImpl value,
+          $Res Function(_$LoginThenActionActionImpl) then) =
+      __$$LoginThenActionActionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({dynamic action});
+}
+
+/// @nodoc
+class __$$LoginThenActionActionImplCopyWithImpl<$Res>
+    extends _$LoginThenActionActionCopyWithImpl<$Res,
+        _$LoginThenActionActionImpl>
+    implements _$$LoginThenActionActionImplCopyWith<$Res> {
+  __$$LoginThenActionActionImplCopyWithImpl(_$LoginThenActionActionImpl _value,
+      $Res Function(_$LoginThenActionActionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? action = freezed,
+  }) {
+    return _then(_$LoginThenActionActionImpl(
+      action: freezed == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoginThenActionActionImpl implements _LoginThenActionAction {
+  const _$LoginThenActionActionImpl({required this.action});
+
+  @override
+  final dynamic action;
+
+  @override
+  String toString() {
+    return 'LoginThenActionAction(action: $action)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoginThenActionActionImpl &&
+            const DeepCollectionEquality().equals(other.action, action));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(action));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoginThenActionActionImplCopyWith<_$LoginThenActionActionImpl>
+      get copyWith => __$$LoginThenActionActionImplCopyWithImpl<
+          _$LoginThenActionActionImpl>(this, _$identity);
+}
+
+abstract class _LoginThenActionAction implements LoginThenActionAction {
+  const factory _LoginThenActionAction({required final dynamic action}) =
+      _$LoginThenActionActionImpl;
+
+  @override
+  dynamic get action;
+  @override
+  @JsonKey(ignore: true)
+  _$$LoginThenActionActionImplCopyWith<_$LoginThenActionActionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

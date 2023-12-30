@@ -1,17 +1,14 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/level_card.dart';
 import 'package:mygameinfo/login_page.dart';
+import 'package:mygameinfo/short_game_report_list_view.dart';
 import 'package:mygameinfo/store/module.dart';
-import 'package:mygameinfo/util.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -47,8 +44,8 @@ class HomeTab extends StatelessWidget {
                           Navigator.push(
                             context,
                             CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) {
-                                return const LoginPage();
+                              builder: (BuildContext ctx) {
+                                return StoreProvider<AppState>(store: StoreProvider.of<AppState>(context), child: const LoginPage());
                               },
                             ),
                           );
@@ -56,7 +53,7 @@ class HomeTab extends StatelessWidget {
                         child: const Text('Login'));
                   }
                   if (tagStats == null) {
-                    return const CupertinoActivityIndicator();
+                    return const SizedBox.shrink();
                   }
                   return Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -79,6 +76,9 @@ class HomeTab extends StatelessWidget {
       ),
       const SliverToBoxAdapter(
         child: LevelCard(),
+      ),
+      const SliverToBoxAdapter(
+        child: ShortGameReportListView(),
       ),
     ]);
   }
@@ -150,25 +150,47 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
                             }
                             return Padding(
                               padding: EdgeInsets.only(
-                                  bottom: (minExtent - statusBarHeight) * (1 - progress)),
-                              child: ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(15)),
-                                child: CachedNetworkImage(
-                                  width: imageWidth,
-                                  height: imageWidth,
-                                  imageUrl:
-                                      "https:${cdnInfo?.url ?? "//myweb-data.s3.amazonaws.com/sandbox-kiosk"}/photos/$uid.png",
-                                  placeholder: (ctx, str) {
-                                    return Icon(
-                                      CupertinoIcons.person_crop_circle,
-                                      size: imageWidth,
-                                      color: CupertinoTheme.of(ctx)
-                                          .textTheme
-                                          .textStyle
-                                          .color,
-                                    );
-                                  },
+                                  bottom: (minExtent - statusBarHeight) *
+                                      (1 - progress)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showCupertinoModalPopup(
+                                      context: ctx,
+                                      builder: (modalctx) {
+                                        return CupertinoActionSheet(
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                              isDestructiveAction: true,
+                                              onPressed: () {
+                                                StoreProvider.of<AppState>(ctx)
+                                                    .dispatch(LogOutAction());
+                                                    Navigator.pop(modalctx);
+                                              },
+                                              child: const Text("Log out"),
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(10 + (progress) * 10)),
+                                  child: CachedNetworkImage(
+                                    width: imageWidth,
+                                    height: imageWidth,
+                                    imageUrl:
+                                        "https:${cdnInfo?.url ?? "//myweb-data.s3.amazonaws.com/sandbox-kiosk"}/photos/$uid.png",
+                                    placeholder: (ctx, str) {
+                                      return Icon(
+                                        CupertinoIcons.person_crop_circle,
+                                        size: imageWidth,
+                                        color: CupertinoTheme.of(ctx)
+                                            .textTheme
+                                            .textStyle
+                                            .color,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             );

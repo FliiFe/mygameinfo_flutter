@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 Color toPastel(Color originalColor, {bool light = false}) {
   List<double> hsl = rgbToHsl(originalColor);
 
-  double pastelSaturation = 0.7;
+  double pastelSaturation = 0.8;
   double pastelLightness = 0.85;
   pastelLightness = light ? pastelLightness : 1 - pastelLightness;
 

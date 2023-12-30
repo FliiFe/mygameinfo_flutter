@@ -22,10 +22,12 @@ Future<CDNInfo> getCDNInfo() async {
   if (response.statusCode == 200) {
     String? cdn;
     String? url;
-    final RegExp regExp =
-        RegExp("^\\s+cdn\\s*:\\s*(?:'|\")([/\\w\\d-.]+)(?:'|\"),\\s*\$", multiLine: true);
-    final RegExp regExp2 =
-        RegExp("^\\s+url2\\s*:\\s*(?:'|\")([/\\w\\d-.]+)(?:'|\"),\\s*\$", multiLine:true);
+    final RegExp regExp = RegExp(
+        "^\\s+cdn\\s*:\\s*(?:'|\")([/\\w\\d-.]+)(?:'|\"),\\s*\$",
+        multiLine: true);
+    final RegExp regExp2 = RegExp(
+        "^\\s+url2\\s*:\\s*(?:'|\")([/\\w\\d-.]+)(?:'|\"),\\s*\$",
+        multiLine: true);
 
     final Match? match = regExp.firstMatch(response.body);
     final Match? match2 = regExp2.firstMatch(response.body);
@@ -75,6 +77,8 @@ Future<int> emailToUserId(String email) async {
 
 @freezed
 class ApiLoginInfo with _$ApiLoginInfo {
+  const ApiLoginInfo._();
+
   const factory ApiLoginInfo({
     @JsonKey(name: 'user_id') required int? userId,
     @JsonKey(name: 'token') required String? token,
@@ -84,6 +88,11 @@ class ApiLoginInfo with _$ApiLoginInfo {
   }) = _ApiLoginInfo;
   factory ApiLoginInfo.fromJson(Map<String, Object?> json) =>
       _$ApiLoginInfoFromJson(json);
+
+  bool get loginRequired =>
+      token == null ||
+      userId == null ||
+      1000 * (expiresAt ?? 0) <= DateTime.now().millisecondsSinceEpoch;
 }
 
 Future<ApiLoginInfo> login(int userid, String password) async {
@@ -251,7 +260,8 @@ Future<Achievements> achievementsInfo(String token, int uid) async {
     }
     final unlocked = data["un"];
     final all = data["all"];
-    final achievements = Achievements(all: {}, unlocked: []);
+    // ignore: prefer_const_constructors
+    Achievements achievements = Achievements(all: {}, unlocked: []);
     if (all is Map<String, dynamic>) {
       for (var key in all.keys) {
         final intKey = int.parse(key);
@@ -360,6 +370,63 @@ Future<List<ShortGameReport>> shortGameReports(String token, int uid) async {
     throw Exception(
         'Request for short game reports failed, response code: ${response.statusCode}');
   }
+}
+
+@freezed
+class GameReport with _$GameReport {
+  const factory GameReport({
+    @JsonKey(name: 'userGames') List<GameReportPlayerStat>? userGames,
+    @JsonKey(name: 'teams') Map<String, int>? teams,
+  }) = _GameReport;
+
+  factory GameReport.fromJson(Map<String, Object?> json) =>
+      _$GameReportFromJson(json);
+}
+
+@freezed
+class GameReportPlayerStat with _$GameReportPlayerStat {
+  const factory GameReportPlayerStat({
+    @JsonKey(name: 'qr') String? qr,
+    @JsonKey(name: 'omemb_id') int? omembId,
+    @JsonKey(name: 'score') int? score,
+    @JsonKey(name: 'team_id') int? teamId,
+    @JsonKey(name: 'rank') int? rank,
+    @JsonKey(name: 'tags_for') int? tagsFor,
+    @JsonKey(name: 'shots_fired') int? shotsFired,
+    @JsonKey(name: 'base_tags') int? baseTags,
+    @JsonKey(name: 'target_tags') int? targetTags,
+    @JsonKey(name: 'base_destroys') int? baseDestroys,
+    @JsonKey(name: 'tags_against') int? tagsAgainst,
+    @JsonKey(name: 'tags_against_members') int? tagsAgainstMembers,
+    @JsonKey(name: 'alias') String? alias,
+    @JsonKey(name: 'accuracy') double? accuracy,
+    @JsonKey(name: 'avatar') String? avatar,
+    @JsonKey(name: 'photo') String? photo,
+    @JsonKey(name: 'photo_use') int? photoUse,
+    @JsonKey(name: 'photo_approved') int? photoApproved,
+  }) = _GameReportPlayerStat;
+
+  factory GameReportPlayerStat.fromJson(Map<String, Object?> json) =>
+      _$GameReportPlayerStatFromJson(json);
+}
+
+Future<GameReport> fetchGameReport(
+    String token, ShortGameReport shortReport) async {
+  final Uri url = Uri.parse(
+      "https://liveapi.mygameinfo.com/public/lasertag/game/${shortReport.logId}/site/${shortReport.siteId}/${shortReport.timeCode}");
+
+  final http.Response response = await http.get(
+    url,
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    if (jsonResponse["data"] != null) {
+      return GameReport.fromJson(jsonResponse["data"]);
+    }
+  }
+  throw Exception("Could not get full report for the game: $shortReport");
 }
 
 // vim: set ts=2 sw=2 ai:

@@ -35,6 +35,11 @@ _$AppStateImpl _$$AppStateImplFromJson(Map<String, dynamic> json) =>
       cdnInfo: json['cdnInfo'] == null
           ? null
           : CDNInfo.fromJson(json['cdnInfo'] as Map<String, dynamic>),
+      gameReports: (json['gameReports'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+                int.parse(k), GameReport.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$AppStateImplToJson(_$AppStateImpl instance) =>
@@ -52,4 +57,6 @@ Map<String, dynamic> _$$AppStateImplToJson(_$AppStateImpl instance) =>
       'loading': instance.loading,
       'lastLoginAttempt': instance.lastLoginAttempt,
       'cdnInfo': instance.cdnInfo?.toJson(),
+      'gameReports': instance.gameReports
+          .map((k, e) => MapEntry(k.toString(), e.toJson())),
     };

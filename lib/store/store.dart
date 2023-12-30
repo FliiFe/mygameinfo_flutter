@@ -21,6 +21,7 @@ class AppState with _$AppState {
     @Default(false) bool loading,
     @Default(0) int lastLoginAttempt,
     CDNInfo? cdnInfo,
+    @Default({}) Map<int, GameReport> gameReports,
   }) = _AppState;
 
   factory AppState.fromJson(Map<String, Object?> json) => _$AppStateFromJson(json);
