@@ -68,9 +68,10 @@ class _MyGameInfoNavigatorState extends State<MyGameInfoNavigator> {
             CupertinoExtendedPage<void>(
               // context: context,
               child: AnnotatedRegion<SystemUiOverlayStyle>(
-                value: const SystemUiOverlayStyle(
+                value: SystemUiOverlayStyle(
                   systemNavigationBarColor: Colors.transparent,
                   systemNavigationBarDividerColor: Colors.transparent,
+                  statusBarBrightness: Theme.of(context).brightness
                 ),
                 child: PlatformScaffold(
                   backgroundColor: isMaterial(context)

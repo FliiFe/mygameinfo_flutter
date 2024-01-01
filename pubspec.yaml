@@ -50,7 +50,10 @@ dependencies:
   collection: ^1.18.0
   flutter_platform_widgets: ^6.0.2
   sheet:
-    path: ./modal-bottom-sheet/sheet/
+    git:
+      url: https://github.com/jamesblasco/modal_bottom_sheet.git
+      ref: main
+      path: sheet/
 
 
 dev_dependencies:
