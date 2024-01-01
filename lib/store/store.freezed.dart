@@ -35,6 +35,7 @@ mixin _$AppState {
   int get lastLoginAttempt => throw _privateConstructorUsedError;
   CDNInfo? get cdnInfo => throw _privateConstructorUsedError;
   Map<int, GameReport> get gameReports => throw _privateConstructorUsedError;
+  int get taskCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +61,8 @@ abstract class $AppStateCopyWith<$Res> {
       bool loading,
       int lastLoginAttempt,
       CDNInfo? cdnInfo,
-      Map<int, GameReport> gameReports});
+      Map<int, GameReport> gameReports,
+      int taskCount});
 
   $ApiLoginInfoCopyWith<$Res>? get loginInfo;
   $AccuracyRatioInfoCopyWith<$Res>? get accuracyRatioInfo;
@@ -95,6 +97,7 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
     Object? lastLoginAttempt = null,
     Object? cdnInfo = freezed,
     Object? gameReports = null,
+    Object? taskCount = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -149,6 +152,10 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
           ? _value.gameReports
           : gameReports // ignore: cast_nullable_to_non_nullable
               as Map<int, GameReport>,
+      taskCount: null == taskCount
+          ? _value.taskCount
+          : taskCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -234,7 +241,8 @@ abstract class _$$AppStateImplCopyWith<$Res>
       bool loading,
       int lastLoginAttempt,
       CDNInfo? cdnInfo,
-      Map<int, GameReport> gameReports});
+      Map<int, GameReport> gameReports,
+      int taskCount});
 
   @override
   $ApiLoginInfoCopyWith<$Res>? get loginInfo;
@@ -272,6 +280,7 @@ class __$$AppStateImplCopyWithImpl<$Res>
     Object? lastLoginAttempt = null,
     Object? cdnInfo = freezed,
     Object? gameReports = null,
+    Object? taskCount = null,
   }) {
     return _then(_$AppStateImpl(
       email: null == email
@@ -326,6 +335,10 @@ class __$$AppStateImplCopyWithImpl<$Res>
           ? _value._gameReports
           : gameReports // ignore: cast_nullable_to_non_nullable
               as Map<int, GameReport>,
+      taskCount: null == taskCount
+          ? _value.taskCount
+          : taskCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -347,7 +360,8 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
       this.loading = false,
       this.lastLoginAttempt = 0,
       this.cdnInfo,
-      final Map<int, GameReport> gameReports = const {}})
+      final Map<int, GameReport> gameReports = const {},
+      this.taskCount = 0})
       : _shortGameReports = shortGameReports,
         _gameReports = gameReports;
 
@@ -401,8 +415,12 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
   }
 
   @override
+  @JsonKey()
+  final int taskCount;
+
+  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppState(email: $email, password: $password, loggedIn: $loggedIn, loginInfo: $loginInfo, accuracyRatioInfo: $accuracyRatioInfo, userLevelInfo: $userLevelInfo, achievements: $achievements, shortGameReports: $shortGameReports, error: $error, loading: $loading, lastLoginAttempt: $lastLoginAttempt, cdnInfo: $cdnInfo, gameReports: $gameReports)';
+    return 'AppState(email: $email, password: $password, loggedIn: $loggedIn, loginInfo: $loginInfo, accuracyRatioInfo: $accuracyRatioInfo, userLevelInfo: $userLevelInfo, achievements: $achievements, shortGameReports: $shortGameReports, error: $error, loading: $loading, lastLoginAttempt: $lastLoginAttempt, cdnInfo: $cdnInfo, gameReports: $gameReports, taskCount: $taskCount)';
   }
 
   @override
@@ -422,7 +440,8 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
       ..add(DiagnosticsProperty('loading', loading))
       ..add(DiagnosticsProperty('lastLoginAttempt', lastLoginAttempt))
       ..add(DiagnosticsProperty('cdnInfo', cdnInfo))
-      ..add(DiagnosticsProperty('gameReports', gameReports));
+      ..add(DiagnosticsProperty('gameReports', gameReports))
+      ..add(DiagnosticsProperty('taskCount', taskCount));
   }
 
   @override
@@ -451,7 +470,9 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
                 other.lastLoginAttempt == lastLoginAttempt) &&
             (identical(other.cdnInfo, cdnInfo) || other.cdnInfo == cdnInfo) &&
             const DeepCollectionEquality()
-                .equals(other._gameReports, _gameReports));
+                .equals(other._gameReports, _gameReports) &&
+            (identical(other.taskCount, taskCount) ||
+                other.taskCount == taskCount));
   }
 
   @JsonKey(ignore: true)
@@ -470,7 +491,8 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
       loading,
       lastLoginAttempt,
       cdnInfo,
-      const DeepCollectionEquality().hash(_gameReports));
+      const DeepCollectionEquality().hash(_gameReports),
+      taskCount);
 
   @JsonKey(ignore: true)
   @override
@@ -500,7 +522,8 @@ abstract class _AppState implements AppState {
       final bool loading,
       final int lastLoginAttempt,
       final CDNInfo? cdnInfo,
-      final Map<int, GameReport> gameReports}) = _$AppStateImpl;
+      final Map<int, GameReport> gameReports,
+      final int taskCount}) = _$AppStateImpl;
 
   factory _AppState.fromJson(Map<String, dynamic> json) =
       _$AppStateImpl.fromJson;
@@ -531,6 +554,8 @@ abstract class _AppState implements AppState {
   CDNInfo? get cdnInfo;
   @override
   Map<int, GameReport> get gameReports;
+  @override
+  int get taskCount;
   @override
   @JsonKey(ignore: true)
   _$$AppStateImplCopyWith<_$AppStateImpl> get copyWith =>

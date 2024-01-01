@@ -40,6 +40,7 @@ _$AppStateImpl _$$AppStateImplFromJson(Map<String, dynamic> json) =>
                 int.parse(k), GameReport.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
+      taskCount: json['taskCount'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$AppStateImplToJson(_$AppStateImpl instance) =>
@@ -59,4 +60,5 @@ Map<String, dynamic> _$$AppStateImplToJson(_$AppStateImpl instance) =>
       'cdnInfo': instance.cdnInfo?.toJson(),
       'gameReports': instance.gameReports
           .map((k, e) => MapEntry(k.toString(), e.toJson())),
+      'taskCount': instance.taskCount,
     };

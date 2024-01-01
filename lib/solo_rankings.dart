@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/game_report_sheet_content.dart';
@@ -7,7 +8,8 @@ import 'package:mygameinfo/store/module.dart';
 class SoloRankings extends StatelessWidget {
   final GameReport gameReport;
   final ShortGameReport shortReport;
-  const SoloRankings({super.key, required this.gameReport, required this.shortReport});
+  const SoloRankings(
+      {super.key, required this.gameReport, required this.shortReport});
 
   @override
   Widget build(BuildContext context) {
@@ -17,27 +19,67 @@ class SoloRankings extends StatelessWidget {
     final soloStats = gameReport.userGames!;
     return StoreConnector<AppState, int?>(
       converter: (store) => store.state.loginInfo?.userId,
-      builder: (context, userId) => CupertinoListSection.insetGrouped(
-        header: const Text("Solo scores"),
-        children: [
+      builder: (context, userId) {
+        final listElements = [
           ...soloStats.map((userStats) {
-            return CupertinoListTile(
-              title: Text(
-                userStats.alias ?? "N/A",
-                style: TextStyle(
-                  color: shortReport.game == "solo" ? null : teamColors.elementAtOrNull(userStats.teamId ?? -1),
-                  fontWeight:
-                      userStats.omembId == userId ? FontWeight.bold : null,
+            return Padding(
+              padding: EdgeInsets.all(isMaterial(context) ? 8.0 : 0)
+                  .copyWith(bottom: 0, top: 0),
+              child: PlatformListTile(
+                title: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      userStats.alias ?? "N/A",
+                      style: TextStyle(
+                        color: shortReport.game == "solo"
+                            ? null
+                            : teamColors
+                                .elementAtOrNull(userStats.teamId ?? -1),
+                        fontWeight: userStats.omembId == userId
+                            ? FontWeight.bold
+                            : null,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "${userStats.accuracy ?? 0}% ",
+                      style: const TextStyle(color: Color(0xff808080)),
+                    ),
+                    Text(userStats.score?.toString() ?? "0"),
+                  ],
                 ),
+                leading: Text("#${userStats.rank}"),
+                // leadingSize: 35,
               ),
-              trailing: Text(userStats.score?.toString() ?? "0"),
-              additionalInfo: Text("${userStats.accuracy ?? 0}%"),
-              leading: Text("#${userStats.rank}"),
-              leadingSize: 35,
             );
           })
-        ],
-      ),
+        ];
+        return PlatformWidget(
+          cupertino: (context, platform) => CupertinoListSection.insetGrouped(
+            header: const Text("Solo scores"),
+            children: listElements,
+          ),
+          material: (context, platform) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 5, left: 20),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 12),
+                  child: Text(
+                    "Played",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  ),
+                ),
+              ),
+              ...listElements,
+            ],
+          ),
+        );
+      },
     );
   }
 }
+
+// vim: set ts=2 sw=2 ai:

@@ -7,6 +7,7 @@ part 'store.g.dart';
 
 @freezed
 class AppState with _$AppState {
+
   @JsonSerializable(explicitToJson: true)
   const factory AppState({
     @Default("") String email,
@@ -22,6 +23,7 @@ class AppState with _$AppState {
     @Default(0) int lastLoginAttempt,
     CDNInfo? cdnInfo,
     @Default({}) Map<int, GameReport> gameReports,
+    @Default(0) int taskCount,
   }) = _AppState;
 
   factory AppState.fromJson(Map<String, Object?> json) => _$AppStateFromJson(json);

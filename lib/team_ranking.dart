@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mygameinfo/game_report_sheet_content.dart';
+import 'package:mygameinfo/util.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class TeamRanking extends StatelessWidget {
@@ -43,13 +44,19 @@ class TeamRanking extends StatelessWidget {
                 percent: keyvalue.value / maxScore,
                 trailing: Text(
                   keyvalue.value.toString(),
-                  style: CupertinoTheme.of(context).textTheme.textStyle,
+                  style: CupertinoTheme.of(context)
+                      .textTheme
+                      .textStyle
+                      .copyWith(color: mainTextColor(context)),
                 ),
                 leading: SizedBox(
                   width: 25,
                   child: Text(
                     "#${rank[keyvalue.key]}",
-                    style: CupertinoTheme.of(context).textTheme.textStyle,
+                    style: CupertinoTheme.of(context)
+                        .textTheme
+                        .textStyle
+                        .copyWith(color: mainTextColor(context)),
                   ),
                 ),
               ),
@@ -60,4 +67,3 @@ class TeamRanking extends StatelessWidget {
     );
   }
 }
-

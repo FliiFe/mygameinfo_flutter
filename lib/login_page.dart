@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/store/module.dart';
 
@@ -16,25 +17,26 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text('Login'),
+    return PlatformScaffold(
+        appBar: PlatformAppBar(
+          title: const Text('Login'),
         ),
-        child: Center(
+        body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Padding(
               padding: const EdgeInsets.only(left: 12, right: 12),
-              child: CupertinoTextField(
+              child: PlatformTextField(
                 controller: emailController,
-                placeholder: "Email address",
+                hintText: "Email address",
+                autocorrect: false,
               ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
-              child: CupertinoTextField(
+              child: PlatformTextField(
                 controller: passwordController,
-                placeholder: "Password",
+                hintText: "Password",
                 obscureText: true,
                 autocorrect: false,
               ),
@@ -60,20 +62,26 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         if (loading)
-                          const CupertinoActivityIndicator(radius: 10),
-                        CupertinoButton(
-                          onPressed: loading
-                              ? null
-                              : () {
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  StoreProvider.of<AppState>(ctx).dispatch(
-                                      PerformLoginAction(
-                                          email: emailController.text,
-                                          password: passwordController.text));
-                                },
-                          child: const Text("Login"),
+                          PlatformCircularProgressIndicator(
+                            cupertino: (ctx, platform) =>
+                                CupertinoProgressIndicatorData(radius: 10),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: PlatformTextButton(
+                            onPressed: loading
+                                ? null
+                                : () {
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    StoreProvider.of<AppState>(ctx).dispatch(
+                                        PerformLoginAction(
+                                            email: emailController.text,
+                                            password: passwordController.text));
+                                  },
+                            child: const Text("Login"),
+                          ),
                         ),
                       ]);
                 }),

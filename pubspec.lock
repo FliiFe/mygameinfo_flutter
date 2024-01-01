@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "64.0.0"
-  adaptive_theme:
-    dependency: "direct main"
-    description:
-      name: adaptive_theme
-      sha256: "38b433c0761d9f15017a15c9ff3e15e8905d3e9bad54a489c7939da6bdf782dd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.4.1"
   analyzer:
     dependency: transitive
     description:
@@ -262,6 +254,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_platform_widgets:
+    dependency: "direct main"
+    description:
+      name: flutter_platform_widgets
+      sha256: "4970c211af1dad0a161e6379d04de2cace80283da0439f2f87d31a541f9b2b84"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.2"
   flutter_redux:
     dependency: "direct main"
     description:
@@ -648,6 +648,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  sheet:
+    dependency: "direct main"
+    description:
+      path: sheet
+      ref: main
+      resolved-ref: d5c9ceb4e2263f63f449ed9b1c212a34c6dcaa5d
+      url: "https://github.com/jamesblasco/modal_bottom_sheet.git"
+    source: git
+    version: "1.0.0-pre"
   shelf:
     dependency: transitive
     description:

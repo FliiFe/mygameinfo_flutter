@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:redux/redux.dart';
 import './store.dart';
 import '../api/api.dart';
@@ -85,6 +87,24 @@ class LoginThenActionAction with _$LoginThenActionAction {
       _LoginThenActionAction;
 }
 
+class IncreaseTaskCountAction {}
+
+class DecreaseTaskCountAction {}
+
+class ResetTaskCountAction {}
+
+AppState _increaseTaskCount(AppState state, IncreaseTaskCountAction _) {
+  return state.copyWith(taskCount: state.taskCount + 1);
+}
+
+AppState _decreaseTaskCount(AppState state, DecreaseTaskCountAction _) {
+  return state.copyWith(taskCount: max(0, state.taskCount - 1));
+}
+
+AppState _resetTaskCount(AppState state, ResetTaskCountAction _) {
+  return state.copyWith(taskCount: 0);
+}
+
 void _gameReportMiddleware(Store<AppState> store, action, NextDispatcher next) {
   if (action is FetchGameReport) {
     if (store.state.gameReports[action.shortReport.logId] != null) {
@@ -114,6 +134,8 @@ void _loginThenActionMiddleware(
   if (action is LoginThenActionAction) {
     emailToUserId(store.state.email).then((uid) {
       login(uid, store.state.password).then((loginInfo) {
+        store.dispatch(LoginResultAction.success);
+        store.dispatch(SaveApiLoginInfoAction(loginInfo: loginInfo));
         store.dispatch(action.action);
       }).onError((error, stacktrace) {
         store.dispatch(RaiseExceptionAction(
@@ -174,25 +196,33 @@ void _storeDebugMiddleWare(Store<AppState> store, action, NextDispatcher next) {
 }
 
 void _getInfosWithToken(Store<AppState> store, token, uid) {
+  store.dispatch(IncreaseTaskCountAction());
   tagStatInfos(token, uid).then((tagStats) {
+    store.dispatch(DecreaseTaskCountAction());
     store.dispatch(TagStatsAction(tagStats: tagStats));
   }).onError((error, stacktrace) {
     store.dispatch(RaiseExceptionAction(
         exception: error, message: "Couldn't grab tag stats"));
   });
+  store.dispatch(IncreaseTaskCountAction());
   levelInfos(token, uid).then((levelInfo) {
+    store.dispatch(DecreaseTaskCountAction());
     store.dispatch(LevelInfoAction(levelInfo: levelInfo));
   }).onError((error, stacktrace) {
     store.dispatch(RaiseExceptionAction(
         exception: error, message: "Couldn't grab level info"));
   });
+  store.dispatch(IncreaseTaskCountAction());
   achievementsInfo(token, uid).then((achievements) {
+    store.dispatch(DecreaseTaskCountAction());
     store.dispatch(AchievementsAction(achievements: achievements));
   }).onError((error, stacktrace) {
     store.dispatch(RaiseExceptionAction(
         exception: error, message: "Couldn't grab achievements info"));
   });
+  store.dispatch(IncreaseTaskCountAction());
   shortGameReports(token, uid).then((shortReports) {
+    store.dispatch(DecreaseTaskCountAction());
     store.dispatch(ShortReportsAction(shortReports: shortReports));
   }).onError((error, stacktrace) {
     store.dispatch(RaiseExceptionAction(
@@ -217,15 +247,19 @@ void _startHydrationMiddleware(
       next(action);
       return;
     }
-    getCDNInfo()
-        .then((cdnInfo) =>
-            store.dispatch(RegisterCDNInfoAction(cdnInfo: cdnInfo)))
-        .onError((error, stackTrace) => store.dispatch(RaiseExceptionAction(
-            exception: error, message: "Could not get CDN info!")));
+    store.dispatch(IncreaseTaskCountAction());
+    getCDNInfo().then((cdnInfo) {
+      store.dispatch(DecreaseTaskCountAction());
+      return store.dispatch(RegisterCDNInfoAction(cdnInfo: cdnInfo));
+    }).onError((error, stackTrace) {
+      return store.dispatch(RaiseExceptionAction(
+          exception: error, message: "Could not get CDN info!"));
+    });
     store.dispatch(LoginResultAction.success);
     store.dispatch(SaveApiLoginInfoAction(loginInfo: store.state.loginInfo!));
     _getInfosWithToken(
         store, store.state.loginInfo!.token, store.state.loginInfo!.userId);
+    store.dispatch(DecreaseTaskCountAction());
   }
   next(action);
 }
@@ -248,7 +282,8 @@ AppState _setCredentials(AppState state, StartApiHydrationAction action) {
 AppState _raiseException(AppState state, RaiseExceptionAction action) {
   print("Issue was raised! ${action.message}");
   print(action.exception);
-  return state.copyWith(error: action.message);
+  // Resetting task count to stop apparent loading in the UI
+  return state.copyWith(error: action.message, taskCount: 0);
 }
 
 AppState _levelInfo(AppState state, LevelInfoAction action) {
@@ -274,6 +309,7 @@ AppState _registerCDNInfo(AppState state, RegisterCDNInfoAction action) {
 void _automaticHydrationMiddleware(
     Store<AppState> store, action, NextDispatcher next) {
   if (action is StartAutomaticApiHydrationAction && store.state.loggedIn) {
+    store.dispatch(IncreaseTaskCountAction());
     store.dispatch(StartApiHydrationAction(
         email: store.state.email, password: store.state.password));
   }
@@ -293,6 +329,9 @@ final reducer = combineReducers([
   TypedReducer<AppState, RegisterCDNInfoAction>(_registerCDNInfo),
   TypedReducer<AppState, LogOutAction>(_logoutAction),
   TypedReducer<AppState, RegisterGameReport>(_registerGameReport),
+  TypedReducer<AppState, IncreaseTaskCountAction>(_increaseTaskCount),
+  TypedReducer<AppState, DecreaseTaskCountAction>(_decreaseTaskCount),
+  TypedReducer<AppState, ResetTaskCountAction>(_resetTaskCount),
 ]);
 
 final middlewares = [

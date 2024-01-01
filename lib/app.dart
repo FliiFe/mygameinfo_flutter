@@ -1,5 +1,6 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/home_tab.dart';
 import 'package:mygameinfo/store/module.dart';
@@ -15,20 +16,49 @@ class MyGameInfoApp extends StatelessWidget {
     // orientations to portrait up and down.
     // SystemChrome.setPreferredOrientations(
     //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    const themeMode = ThemeMode.system;
 
-    return CupertinoAdaptiveTheme(
-      light: const CupertinoThemeData(
-        brightness: Brightness.light,
+    final materialLightTheme = ThemeData.light().copyWith(navigationBarTheme: ThemeData.light().navigationBarTheme.copyWith(backgroundColor: const Color(0xffffffff)));
+    final materialDarkTheme = ThemeData.dark().copyWith(navigationBarTheme: ThemeData.dark().navigationBarTheme.copyWith(backgroundColor: const Color(0xff202020)));
+
+    final cupertinoLightTheme =
+        MaterialBasedCupertinoThemeData(materialTheme: materialLightTheme);
+    const darkDefaultCupertinoTheme =
+        CupertinoThemeData(brightness: Brightness.dark);
+    final cupertinoDarkTheme = MaterialBasedCupertinoThemeData(
+      materialTheme: materialDarkTheme.copyWith(
+        cupertinoOverrideTheme: CupertinoThemeData(
+          brightness: Brightness.dark,
+          barBackgroundColor: darkDefaultCupertinoTheme.barBackgroundColor,
+          textTheme: CupertinoTextThemeData(
+            navActionTextStyle: darkDefaultCupertinoTheme
+                .textTheme.navActionTextStyle
+                .copyWith(color: materialDarkTheme.primaryColor),
+            navLargeTitleTextStyle: darkDefaultCupertinoTheme
+                .textTheme.navLargeTitleTextStyle
+                .copyWith(color: const Color(0xF0F9F9F9)),
+          ),
+        ),
       ),
-      dark: const CupertinoThemeData(
-        brightness: Brightness.dark,
+    );
+
+    return PlatformProvider(
+      settings: PlatformSettingsData(
+        platformStyle: const PlatformStyleData(macos: PlatformStyle.Material, ios: PlatformStyle.Cupertino),
       ),
-      initial: AdaptiveThemeMode.system,
-      builder: (theme) => CupertinoApp(
-        theme: theme,
-        home: StoreProvider(store: store, child: const MyGameInfoHomePage()),
-        debugShowCheckedModeBanner: false,
-      ),
+      builder: (ctx) => PlatformTheme(
+          themeMode: themeMode,
+          materialLightTheme: materialLightTheme,
+          materialDarkTheme: materialDarkTheme,
+          cupertinoLightTheme: cupertinoLightTheme,
+          cupertinoDarkTheme: cupertinoDarkTheme,
+          builder: (context) {
+            return PlatformApp(
+              home: StoreProvider(
+                  store: store, child: const MyGameInfoHomePage()),
+              debugShowCheckedModeBanner: false,
+            );
+          }),
     );
   }
 }
@@ -38,9 +68,10 @@ class MyGameInfoHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoDynamicColor.resolve(CupertinoColors.systemGroupedBackground, context),
-      child: const HomeTab(),
+    return PlatformScaffold(
+      backgroundColor: CupertinoDynamicColor.resolve(
+          CupertinoColors.systemGroupedBackground, context),
+      body: const HomeTab(),
     );
   }
 }

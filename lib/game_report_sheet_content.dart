@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:mygameinfo/api/api.dart';
@@ -8,6 +10,7 @@ import 'package:mygameinfo/solo_rankings.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:mygameinfo/team_ranking.dart';
 import 'package:collection/collection.dart';
+import 'package:mygameinfo/util.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 const teamColors = [
@@ -37,8 +40,9 @@ class GameReportSheetContent extends StatelessWidget {
             return SingleChildScrollView(
               controller: ModalScrollController.of(context),
               child: SafeArea(
+                top: false,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: isMaterial(context) ? null : BoxDecoration(
                       color: CupertinoDynamicColor.resolve(
                           CupertinoColors.systemGroupedBackground, context)),
                   child: Column(children: [
@@ -62,7 +66,8 @@ class GameReportSheetContent extends StatelessWidget {
                       TeamEffectiveness(
                           gameReport: gameReport, shortReport: shortReport),
                     ],
-                    PersonalStats(gameReport: gameReport, shortReport: shortReport),
+                    PersonalStats(
+                        gameReport: gameReport, shortReport: shortReport),
                     SoloRankings(
                       gameReport: gameReport,
                       shortReport: shortReport,
@@ -95,8 +100,12 @@ class PersonalStats extends StatelessWidget {
             ?.firstWhereOrNull((userstat) => userstat.omembId == userId)
             ?.teamId;
         final accuracy = min(shortReport.accuracy! / 100, 1.0);
-        final tagRatio = (shortReport.tagsFor ?? -1) / (shortReport.tagsAga ?? 1);
-        if (shortReport.accuracy == null || selfTeamId == null || tagRatio < 0 || !tagRatio.isFinite) {
+        final tagRatio =
+            (shortReport.tagsFor ?? -1) / (shortReport.tagsAga ?? 1);
+        if (shortReport.accuracy == null ||
+            selfTeamId == null ||
+            tagRatio < 0 ||
+            !tagRatio.isFinite) {
           return const SizedBox.shrink();
         }
         final nticks = tagRatio.ceil() - 1;
@@ -112,7 +121,10 @@ class PersonalStats extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
               ),
             ),
-            CustomStatProgressBar(color: CupertinoColors.systemGrey4, stat: accuracy, ticks: const ["50%"]),
+            CustomStatProgressBar(
+                color: teamColors[selfTeamId],
+                stat: accuracy,
+                ticks: const ["50%"]),
             const Padding(
               padding: EdgeInsets.only(left: 10, top: 8.0),
               child: Text(
@@ -120,7 +132,11 @@ class PersonalStats extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
               ),
             ),
-            CustomStatProgressBar(color: CupertinoColors.systemGrey4, stat: adjustedTagRatio, ticks: List.generate(nticks, (i) => "${100*(i+1)}%"), displayPercentage: (100 * tagRatio).toStringAsFixed(0)),
+            CustomStatProgressBar(
+                color: teamColors[selfTeamId],
+                stat: adjustedTagRatio,
+                ticks: List.generate(nticks, (i) => "${100 * (i + 1)}%"),
+                displayPercentage: (100 * tagRatio).toStringAsFixed(0)),
           ]),
         );
       },
@@ -158,7 +174,10 @@ class TeamEffectiveness extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
               ),
             ),
-            CustomStatProgressBar(color: CupertinoColors.systemGrey4, stat: effectiveness, ticks: const ["50%"]),
+            CustomStatProgressBar(
+                color: teamColors[selfTeamId],
+                stat: effectiveness,
+                ticks: const ["50%"]),
           ]),
         );
       },
@@ -167,13 +186,12 @@ class TeamEffectiveness extends StatelessWidget {
 }
 
 class CustomStatProgressBar extends StatelessWidget {
-  const CustomStatProgressBar({
-    super.key,
-    required this.color,
-    required this.stat,
-    required this.ticks,
-    this.displayPercentage
-  });
+  const CustomStatProgressBar(
+      {super.key,
+      required this.color,
+      required this.stat,
+      required this.ticks,
+      this.displayPercentage});
 
   final Color? color;
   final double stat;
@@ -194,14 +212,12 @@ class CustomStatProgressBar extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(10).copyWith(bottom: 0, top: 0),
+                      padding:
+                          const EdgeInsets.all(10).copyWith(bottom: 0, top: 0),
                       child: Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: List.filled(
-                              2 + ticks.length,
-                              const CustomVerticalSeparator(
-                                  height: 20))),
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: List.filled(2 + ticks.length,
+                              const CustomVerticalSeparator(height: 20))),
                     ),
                     LinearPercentIndicator(
                       backgroundColor:
@@ -215,9 +231,11 @@ class CustomStatProgressBar extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: ticks.map((tick) =>
-                    Text(tick, style: const TextStyle(fontSize: 12, color: Color(0xFF808080)))
-                  ).toList(),
+                  children: ticks
+                      .map((tick) => Text(tick,
+                          style: const TextStyle(
+                              fontSize: 12, color: Color(0xFF808080))))
+                      .toList(),
                 ),
               ],
             ),
@@ -262,7 +280,7 @@ class Pill extends StatelessWidget {
       height: 3,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          color: CupertinoTheme.of(context).textTheme.textStyle.color),
+          color: mainTextColor(context)),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/store/module.dart';
@@ -60,7 +62,8 @@ class _LevelCardState extends State<LevelCard> {
                       color: CupertinoDynamicColor.resolve(
                           cardPressed
                               ? CupertinoColors.systemGrey4
-                              : CupertinoColors.secondarySystemGroupedBackground,
+                              : CupertinoColors
+                                  .secondarySystemGroupedBackground,
                           ctx),
                       // border: Border.all(color: Color(0xff808080), width: 2),
                     ),
@@ -78,7 +81,7 @@ class _LevelCardState extends State<LevelCard> {
                                     builder: (ctx, cdnInfo) {
                                       return Padding(
                                         padding: const EdgeInsets.all(8.0).add(
-                                            const EdgeInsets.only(right: 20)),
+                                            const EdgeInsets.only(right: 20, left: 10)),
                                         child: CachedNetworkImage(
                                             width: 80,
                                             imageUrl:
@@ -87,9 +90,11 @@ class _LevelCardState extends State<LevelCard> {
                                     }),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text("Level: ${levelInfo.level ?? "N/A"}"),
+                                      Text(
+                                          "Level: ${levelInfo.level ?? "N/A"}"),
                                       Text("Rank: ${levelInfo.name ?? "N/A"}"),
                                       Text(
                                           "Class: ${levelInfo.className ?? "N/A"}"),
@@ -101,18 +106,25 @@ class _LevelCardState extends State<LevelCard> {
                             ),
                           ),
                           LinearPercentIndicator(
-                            barRadius: const Radius.circular(5),
-                            center: Text("${levelInfo.xp} / ${levelInfo.nextXp}"),
-                            lineHeight: 25.0,
+                            barRadius: const Radius.circular(10),
+                            center: Text(
+                              "${levelInfo.xp} / ${levelInfo.nextXp}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(color: mainTextColor(context)),
+                            ),
+                            lineHeight: 20.0,
                             percent:
                                 (levelInfo.xp ?? 0) / (levelInfo.nextXp ?? 1),
                             backgroundColor: CupertinoDynamicColor.resolve(
-                                CupertinoColors.systemGroupedBackground, context),
+                                CupertinoColors.systemGroupedBackground,
+                                context),
                             progressColor: toPastel(
                                 Color(int.parse(
                                     "ff${levelInfo.classColour ?? "808080"}",
                                     radix: 16)),
-                                light: true),
+                                light: !(PlatformTheme.of(context)?.isDark ?? false)),
                           ),
                         ],
                       ),

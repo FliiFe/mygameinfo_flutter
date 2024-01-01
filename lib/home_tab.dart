@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/level_card.dart';
@@ -16,20 +18,27 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
-    return CustomScrollView(slivers: <Widget>[
+    final sliverDelegate = CustomPersistentSliverDelegate(
+        statusBarHeight: MediaQuery.of(context).viewPadding.top,
+        platform: isMaterial(context)
+            ? PlatformStyle.Material
+            : PlatformStyle.Cupertino);
+    onRefresh() async {
+      store.dispatch(StartAutomaticApiHydrationAction());
+      while (store.state.taskCount > 0) {
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+    }
+
+    var scrollView = CustomScrollView(slivers: <Widget>[
       SliverPersistentHeader(
         pinned: true,
-        delegate: CustomPersistentSliverDelegate(
-            statusBarHeight: MediaQuery.of(context).viewPadding.top),
+        delegate: sliverDelegate,
       ),
-      CupertinoSliverRefreshControl(
-        onRefresh: () async {
-          await Future<void>.delayed(
-            const Duration(milliseconds: 1000),
-          );
-          store.dispatch(StartAutomaticApiHydrationAction());
-        },
-      ),
+      if (!isMaterial(context))
+        CupertinoSliverRefreshControl(
+          onRefresh: onRefresh,
+        ),
       SliverToBoxAdapter(
         child: Center(
             child: StoreConnector<AppState, (AccuracyRatioInfo?, bool)>(
@@ -39,18 +48,24 @@ class HomeTab extends StatelessWidget {
                   final tagStats = tuple.$1;
                   final loggedIn = tuple.$2;
                   if (loggedIn == false) {
-                    return CupertinoButton.filled(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute<Widget>(
-                              builder: (BuildContext ctx) {
-                                return StoreProvider<AppState>(store: StoreProvider.of<AppState>(context), child: const LoginPage());
-                              },
-                            ),
-                          );
-                        },
-                        child: const Text('Login'));
+                    return Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: PlatformElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute<Widget>(
+                                builder: (BuildContext ctx) {
+                                  return StoreProvider<AppState>(
+                                      store:
+                                          StoreProvider.of<AppState>(context),
+                                      child: const LoginPage());
+                                },
+                              ),
+                            );
+                          },
+                          child: const Text('Login')),
+                    );
                   }
                   if (tagStats == null) {
                     return const SizedBox.shrink();
@@ -77,17 +92,25 @@ class HomeTab extends StatelessWidget {
       const SliverToBoxAdapter(
         child: LevelCard(),
       ),
-      const SliverToBoxAdapter(
-        child: ShortGameReportListView(),
-      ),
+      const ShortGameReportListView(),
     ]);
+    return PlatformWidget(
+      cupertino: (ctx, platform) => scrollView,
+      material: (ctx, platform) => RefreshIndicator(
+        edgeOffset: sliverDelegate.maxExtent,
+        onRefresh: onRefresh,
+        child: scrollView,
+      ),
+    );
   }
 }
 
 class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
   final double statusBarHeight;
+  final PlatformStyle platform;
 
-  CustomPersistentSliverDelegate({this.statusBarHeight = 0});
+  CustomPersistentSliverDelegate(
+      {this.statusBarHeight = 0, required this.platform});
 
   @override
   Widget build(
@@ -96,18 +119,26 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
         min(shrinkOffset, maxExtent - minExtent) / (maxExtent - minExtent);
     final greyAlpha = (32 * progress).round() << 24;
     final imageWidth = 30 * (4 - 3 * progress) -
-        (minExtent - statusBarHeight) * (1 - progress);
+        (45) * (1 - progress);
     final mediaQueryData = MediaQuery.of(context);
     final screenWidth = mediaQueryData.size.width;
+    final decoration = platform == PlatformStyle.Material
+        ? BoxDecoration(
+            color: Theme.of(context)
+                .navigationBarTheme
+                .backgroundColor
+                ?.withOpacity(progress),
+          )
+        : BoxDecoration(
+            color: Color(0x00808080 | greyAlpha),
+            border: Border(
+                bottom:
+                    BorderSide(color: Color(0x00808080 | (greyAlpha * 2)))));
     return ClipRect(
       child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
           child: Container(
-            decoration: BoxDecoration(
-                color: Color(0x00808080 | greyAlpha),
-                border: Border(
-                    bottom: BorderSide(
-                        color: Color(0x00808080 | (greyAlpha * 2))))),
+            decoration: decoration,
             width: double.infinity,
             height: maxExtent,
             child: Padding(
@@ -123,7 +154,11 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
                               top: (1 - progress) * (maxExtent - minExtent)),
                           child: Text(
                             alias ?? "MyGameInfo",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: isMaterial(context)
+                                ? Theme.of(context).textTheme.titleLarge
+                                : CupertinoTheme.of(context)
+                                    .textTheme
+                                    .navTitleTextStyle,
                             textScaler: TextScaler.linear(2 - progress),
                           ),
                         );
@@ -134,8 +169,9 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: EdgeInsets.only(
-                          right: 8 +
-                              (screenWidth / 2 - imageWidth / 2 - 8) *
+                          right: 
+                              (platform == PlatformStyle.Material ? 18 : 8) * progress +
+                              (screenWidth / 2 - imageWidth / 2) *
                                   (1 - progress)),
                       child: StoreConnector<AppState, (int?, CDNInfo?)>(
                           converter: (store) => (
@@ -164,7 +200,7 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
                                               onPressed: () {
                                                 StoreProvider.of<AppState>(ctx)
                                                     .dispatch(LogOutAction());
-                                                    Navigator.pop(modalctx);
+                                                Navigator.pop(modalctx);
                                               },
                                               child: const Text("Log out"),
                                             )
@@ -208,7 +244,8 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => 150 + statusBarHeight;
 
   @override
-  double get minExtent => 45 + statusBarHeight;
+  double get minExtent =>
+      (platform == PlatformStyle.Cupertino ? 45 : 64) + statusBarHeight;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
