@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/game_report_sheet_content.dart';
+import 'package:mygameinfo/my_game_info_navigator.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:sheet/route.dart';
 
@@ -59,7 +60,7 @@ class ShortGameReportListView extends StatelessWidget {
               if (report.logId == null) {
                 return;
               }
-              if (isMaterial(context)) {
+              // if (isMaterial(context)) {
                 //   showMaterialModalBottomSheet(
                 //     context: context,
                 //     builder: (ctx) => StoreProvider<AppState>(
@@ -69,22 +70,22 @@ class ShortGameReportListView extends StatelessWidget {
                 //       ),
                 //     ),
                 //   );
-                Navigator.of(context).push(SheetRoute<void>(
-                  stops: [0, 0.6, 1],
-                  initialExtent: 0.6,
-                  builder: (ctx) {
-                    return Material(
-                        elevation: 2,
-                      child: StoreProvider<AppState>(
-                        store: StoreProvider.of<AppState>(context),
-                        child: GameReportSheetContent(
-                          shortReport: report,
-                        ),
-                      ),
-                    );
-                  },
-                ));
-              } else {
+              //   Navigator.of(context).push(SheetRoute<void>(
+              //     stops: [0, 0.6, 1],
+              //     initialExtent: 0.6,
+              //     builder: (ctx) {
+              //       return Material(
+              //         elevation: 2,
+              //         child: StoreProvider<AppState>(
+              //           store: StoreProvider.of<AppState>(context),
+              //           child: GameReportSheetContent(
+              //             shortReport: report,
+              //           ),
+              //         ),
+              //       );
+              //     },
+              //   ));
+              // } else {
                 //   showCupertinoModalBottomSheet(
                 //     backgroundColor: CupertinoDynamicColor.resolve(
                 //         CupertinoColors.secondarySystemGroupedBackground,
@@ -97,19 +98,28 @@ class ShortGameReportListView extends StatelessWidget {
                 //       ),
                 //     ),
                 //   );
-                Navigator.of(context).push(CupertinoSheetRoute<void>(
-                  stops: [0, 0.6, 1],
-                  initialStop: 0.6,
-                  builder: (ctx) {
-                    return StoreProvider<AppState>(
-                      store: StoreProvider.of<AppState>(context),
-                      child: GameReportSheetContent(
-                        shortReport: report,
-                      ),
-                    );
-                  },
-                ));
-              }
+                Navigator.of(context).push(
+                  CupertinoSheetRoute<void>(
+                    backgroundColor: CupertinoDynamicColor.resolve(
+                        CupertinoColors.systemGroupedBackground,
+                        context),
+                    stops: [0, 0.6, 1],
+                    initialStop: 0.6,
+                    builder: (ctx) {
+                      return StoreProvider<AppState>(
+                        store: StoreProvider.of<AppState>(context),
+                        child: Material(
+                        elevation: 2,
+                          child: GameReportSheetContent(
+                            shortReport: report,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+                // MGINavigator.of(context).openGameReport(report);
+              // }
             },
           );
         }).toList();

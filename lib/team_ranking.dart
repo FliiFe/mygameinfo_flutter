@@ -28,7 +28,7 @@ class TeamRanking extends StatelessWidget {
             padding: EdgeInsets.only(left: 10),
             child: Text(
               "Team scores",
-              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
           ...sortedScores.map((keyvalue) {

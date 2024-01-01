@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/home_tab.dart';
+import 'package:mygameinfo/my_game_info_navigator.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:redux/redux.dart';
 
@@ -18,11 +20,17 @@ class MyGameInfoApp extends StatelessWidget {
     //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     const themeMode = ThemeMode.system;
 
-    final materialLightTheme = ThemeData.light().copyWith(navigationBarTheme: ThemeData.light().navigationBarTheme.copyWith(backgroundColor: const Color(0xffffffff)));
-    final materialDarkTheme = ThemeData.dark().copyWith(navigationBarTheme: ThemeData.dark().navigationBarTheme.copyWith(backgroundColor: const Color(0xff202020)));
+    final materialLightTheme = ThemeData.light().copyWith(
+        navigationBarTheme: ThemeData.light()
+            .navigationBarTheme
+            .copyWith(backgroundColor: const Color(0xffffffff)));
+    final materialDarkTheme = ThemeData.dark().copyWith(
+        navigationBarTheme: ThemeData.dark()
+            .navigationBarTheme
+            .copyWith(backgroundColor: const Color(0xff202020)));
 
-    final cupertinoLightTheme =
-        MaterialBasedCupertinoThemeData(materialTheme: materialLightTheme);
+    const cupertinoLightTheme =
+        CupertinoThemeData(brightness: Brightness.light);
     const darkDefaultCupertinoTheme =
         CupertinoThemeData(brightness: Brightness.dark);
     final cupertinoDarkTheme = MaterialBasedCupertinoThemeData(
@@ -44,7 +52,8 @@ class MyGameInfoApp extends StatelessWidget {
 
     return PlatformProvider(
       settings: PlatformSettingsData(
-        platformStyle: const PlatformStyleData(macos: PlatformStyle.Material, ios: PlatformStyle.Cupertino),
+        platformStyle: const PlatformStyleData(
+            macos: PlatformStyle.Material, ios: PlatformStyle.Cupertino),
       ),
       builder: (ctx) => PlatformTheme(
           themeMode: themeMode,
@@ -55,23 +64,10 @@ class MyGameInfoApp extends StatelessWidget {
           builder: (context) {
             return PlatformApp(
               home: StoreProvider(
-                  store: store, child: const MyGameInfoHomePage()),
+                  store: store, child: const MyGameInfoNavigator()),
               debugShowCheckedModeBanner: false,
             );
           }),
-    );
-  }
-}
-
-class MyGameInfoHomePage extends StatelessWidget {
-  const MyGameInfoHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return PlatformScaffold(
-      backgroundColor: CupertinoDynamicColor.resolve(
-          CupertinoColors.systemGroupedBackground, context),
-      body: const HomeTab(),
     );
   }
 }

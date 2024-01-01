@@ -1,0 +1,3 @@
+[submodule "modal-bottom-sheet"]
+	path = modal-bottom-sheet
+	url = https://github.com/jamesblasco/modal_bottom_sheet.git

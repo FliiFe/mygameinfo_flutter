@@ -61,16 +61,13 @@ class SoloRankings extends StatelessWidget {
             children: listElements,
           ),
           material: (context, platform) => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 20),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 12),
-                  child: Text(
-                    "Played",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  ),
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  "Solo scores",
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
                 ),
               ),
               ...listElements,

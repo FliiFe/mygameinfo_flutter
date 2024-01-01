@@ -2,15 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/solo_rankings.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:mygameinfo/team_ranking.dart';
 import 'package:collection/collection.dart';
-import 'package:mygameinfo/util.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 const teamColors = [
@@ -37,42 +35,39 @@ class GameReportSheetContent extends StatelessWidget {
           if (gameReport == null) {
             return const CupertinoActivityIndicator();
           } else {
-            return SingleChildScrollView(
-              controller: ModalScrollController.of(context),
-              child: SafeArea(
-                top: false,
-                child: Container(
-                  decoration: isMaterial(context) ? null : BoxDecoration(
-                      color: CupertinoDynamicColor.resolve(
-                          CupertinoColors.systemGroupedBackground, context)),
-                  child: Column(children: [
-                    const Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Align(
-                            child: Pill(),
-                          ),
+            return CupertinoPageScaffold(
+              backgroundColor: CupertinoColors.systemGroupedBackground,
+              navigationBar: const CupertinoNavigationBar(
+                  backgroundColor: CupertinoColors.systemGroupedBackground,
+                  leading: SizedBox.shrink(),
+                  middle: Pill(),
+                  trailing: CloseButton()),
+              child: AnnotatedRegion<SystemUiOverlayStyle>(
+                value: const SystemUiOverlayStyle(
+                  systemNavigationBarColor: Colors.transparent,
+                  systemNavigationBarDividerColor: Colors.transparent,
+                ),
+                child: SafeArea(
+                  bottom: false,
+                  child: SingleChildScrollView(
+                    child: SafeArea(
+                      top: false,
+                      child: Column(children: [
+                        if (gameReport.teams != null &&
+                            shortReport.game != "solo") ...[
+                          TeamRanking(teams: gameReport.teams!),
+                          TeamEffectiveness(
+                              gameReport: gameReport, shortReport: shortReport),
+                        ],
+                        PersonalStats(
+                            gameReport: gameReport, shortReport: shortReport),
+                        SoloRankings(
+                          gameReport: gameReport,
+                          shortReport: shortReport,
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: CloseButton(),
-                        ),
-                      ],
+                      ]),
                     ),
-                    if (gameReport.teams != null &&
-                        shortReport.game != "solo") ...[
-                      TeamRanking(teams: gameReport.teams!),
-                      TeamEffectiveness(
-                          gameReport: gameReport, shortReport: shortReport),
-                    ],
-                    PersonalStats(
-                        gameReport: gameReport, shortReport: shortReport),
-                    SoloRankings(
-                      gameReport: gameReport,
-                      shortReport: shortReport,
-                    ),
-                  ]),
+                  ),
                 ),
               ),
             );
@@ -118,7 +113,7 @@ class PersonalStats extends StatelessWidget {
               padding: EdgeInsets.only(left: 10),
               child: Text(
                 "Accuracy",
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
             CustomStatProgressBar(
@@ -129,7 +124,7 @@ class PersonalStats extends StatelessWidget {
               padding: EdgeInsets.only(left: 10, top: 8.0),
               child: Text(
                 "Tag Ratio",
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
             CustomStatProgressBar(
@@ -171,7 +166,7 @@ class TeamEffectiveness extends StatelessWidget {
               padding: EdgeInsets.only(left: 10),
               child: Text(
                 "Team Effectiveness",
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
             CustomStatProgressBar(
@@ -276,11 +271,11 @@ class Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 3,
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          color: mainTextColor(context)),
+      width: 50,
+      height: 8,
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Color(0xff808080)),
     );
   }
 }
