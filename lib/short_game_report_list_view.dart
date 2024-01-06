@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/game_report_sheet_content.dart';
-import 'package:mygameinfo/my_game_info_navigator.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:sheet/route.dart';
 

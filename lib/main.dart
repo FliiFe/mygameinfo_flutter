@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mygameinfo/store/module.dart';
@@ -37,7 +39,20 @@ void main() async {
   // Load initial state
   final initialState = await persistor.load();
   final store = Store(reducer,
-      initialState: initialState ?? AppState.initialState(),
+      initialState: initialState?.copyWith(taskCount: 0) ?? AppState.initialState(),
       middleware: middlewares + [persistor.createMiddleware()]);
+
+  void mainIsolateUpdateTask([Timer? timer]) {
+    if (store.state.loggedIn) {
+      print("Automatic refresh triggered by timer");
+      store.dispatch(StartAutomaticApiHydrationAction());
+    }
+  }
+
+  mainIsolateUpdateTask();
+  Timer.periodic(const Duration(minutes: 5), mainIsolateUpdateTask);
+
   return runApp(MyGameInfoApp(store: store));
 }
+
+// vim: set ts=2 sw=2 ai:

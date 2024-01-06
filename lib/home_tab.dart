@@ -30,70 +30,82 @@ class HomeTab extends StatelessWidget {
       }
     }
 
-    var scrollView = CustomScrollView(slivers: <Widget>[
-      SliverPersistentHeader(
-        pinned: true,
-        delegate: sliverDelegate,
-      ),
-      if (!isMaterial(context))
-        CupertinoSliverRefreshControl(
-          onRefresh: onRefresh,
+    var scrollView = NestedScrollView(
+      headerSliverBuilder: (ctx, scrolled) => <Widget>[
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: sliverDelegate,
         ),
-      SliverToBoxAdapter(
-        child: Center(
-            child: StoreConnector<AppState, (AccuracyRatioInfo?, bool)>(
-                converter: (store) =>
-                    (store.state.accuracyRatioInfo, store.state.loggedIn),
-                builder: (ctx, tuple) {
-                  final tagStats = tuple.$1;
-                  final loggedIn = tuple.$2;
-                  if (loggedIn == false) {
-                    return Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: PlatformElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute<Widget>(
-                                builder: (BuildContext ctx) {
-                                  return StoreProvider<AppState>(
-                                      store:
-                                          StoreProvider.of<AppState>(context),
-                                      child: const LoginPage());
-                                },
-                              ),
+      ],
+      body: UnconstrainedBox(
+      constrainedAxis: Axis.vertical,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: min(900, MediaQuery.of(context).size.width)),
+          child: CustomScrollView(
+            slivers: [
+              if (!isMaterial(context))
+                CupertinoSliverRefreshControl(
+                  onRefresh: onRefresh,
+                ),
+              SliverToBoxAdapter(
+                child: Center(
+                    child: StoreConnector<AppState, (AccuracyRatioInfo?, bool)>(
+                        converter: (store) =>
+                            (store.state.accuracyRatioInfo, store.state.loggedIn),
+                        builder: (ctx, tuple) {
+                          final tagStats = tuple.$1;
+                          final loggedIn = tuple.$2;
+                          if (loggedIn == false) {
+                            return Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: PlatformElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute<Widget>(
+                                        builder: (BuildContext ctx) {
+                                          return StoreProvider<AppState>(
+                                              store: StoreProvider.of<AppState>(
+                                                  context),
+                                              child: const LoginPage());
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Login')),
                             );
-                          },
-                          child: const Text('Login')),
-                    );
-                  }
-                  if (tagStats == null) {
-                    return const SizedBox.shrink();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(children: [
-                            const Text("TAG RATIO"),
-                            Text(tagStats.tagRatio ?? "N/A",
-                                style: const TextStyle(fontSize: 40)),
-                          ]),
-                          Column(children: [
-                            const Text("ACCURACY"),
-                            Text(tagStats.tagAccuracy ?? "N/A",
-                                style: const TextStyle(fontSize: 40)),
-                          ])
-                        ]),
-                  );
-                })),
+                          }
+                          if (tagStats == null) {
+                            return const SizedBox.shrink();
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(children: [
+                                    const Text("TAG RATIO"),
+                                    Text(tagStats.tagRatio ?? "N/A",
+                                        style: const TextStyle(fontSize: 40)),
+                                  ]),
+                                  Column(children: [
+                                    const Text("ACCURACY"),
+                                    Text(tagStats.tagAccuracy ?? "N/A",
+                                        style: const TextStyle(fontSize: 40)),
+                                  ])
+                                ]),
+                          );
+                        })),
+              ),
+              const SliverToBoxAdapter(
+                child: LevelCard(),
+              ),
+              const ShortGameReportListView(),
+            ],
+          ),
+        ),
       ),
-      const SliverToBoxAdapter(
-        child: LevelCard(),
-      ),
-      const ShortGameReportListView(),
-    ]);
+    );
     return PlatformWidget(
       cupertino: (ctx, platform) => scrollView,
       material: (ctx, platform) => RefreshIndicator(
@@ -118,8 +130,7 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
     final progress =
         min(shrinkOffset, maxExtent - minExtent) / (maxExtent - minExtent);
     final greyAlpha = (32 * progress).round() << 24;
-    final imageWidth = 30 * (4 - 3 * progress) -
-        (45) * (1 - progress);
+    final imageWidth = 30 * (4 - 3 * progress) - (45) * (1 - progress);
     final mediaQueryData = MediaQuery.of(context);
     final screenWidth = mediaQueryData.size.width;
     final decoration = platform == PlatformStyle.Material
@@ -169,17 +180,18 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: EdgeInsets.only(
-                          right: 
-                              (platform == PlatformStyle.Material ? 18 : 8) * progress +
+                          right: (platform == PlatformStyle.Material ? 18 : 8) *
+                                  progress +
                               (screenWidth / 2 - imageWidth / 2) *
                                   (1 - progress)),
-                      child: StoreConnector<AppState, (int?, CDNInfo?)>(
+                      child: StoreConnector<AppState, (ApiLoginInfo?, CDNInfo?)>(
                           converter: (store) => (
-                                store.state.loginInfo?.userId,
+                                store.state.loginInfo,
                                 store.state.cdnInfo
                               ),
                           builder: (ctx, tuple) {
-                            final uid = tuple.$1;
+                            final loginInfo = tuple.$1;
+                            final uid = loginInfo?.userId;
                             final cdnInfo = tuple.$2;
                             if (uid == null) {
                               return const SizedBox.shrink();
@@ -215,7 +227,7 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
                                     width: imageWidth,
                                     height: imageWidth,
                                     imageUrl:
-                                        "https:${cdnInfo?.url ?? "//myweb-data.s3.amazonaws.com/sandbox-kiosk"}/photos/$uid.png",
+                                        "https:${cdnInfo?.url ?? "//myweb-data.s3.amazonaws.com/sandbox-kiosk"}/${(loginInfo?.usePhoto ?? true) ? "photos" : "avatars"}/$uid.png",
                                     placeholder: (ctx, str) {
                                       return Icon(
                                         CupertinoIcons.person_crop_circle,

@@ -198,6 +198,10 @@ mixin _$ApiLoginInfo {
   String? get alias => throw _privateConstructorUsedError;
   @JsonKey(name: 'avatar')
   String? get avatar => throw _privateConstructorUsedError;
+  @JsonKey(name: 'photo')
+  String? get photo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'photo_use')
+  bool? get usePhoto => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -216,7 +220,9 @@ abstract class $ApiLoginInfoCopyWith<$Res> {
       @JsonKey(name: 'token') String? token,
       @JsonKey(name: 'expires_at') int? expiresAt,
       @JsonKey(name: 'alias') String? alias,
-      @JsonKey(name: 'avatar') String? avatar});
+      @JsonKey(name: 'avatar') String? avatar,
+      @JsonKey(name: 'photo') String? photo,
+      @JsonKey(name: 'photo_use') bool? usePhoto});
 }
 
 /// @nodoc
@@ -237,6 +243,8 @@ class _$ApiLoginInfoCopyWithImpl<$Res, $Val extends ApiLoginInfo>
     Object? expiresAt = freezed,
     Object? alias = freezed,
     Object? avatar = freezed,
+    Object? photo = freezed,
+    Object? usePhoto = freezed,
   }) {
     return _then(_value.copyWith(
       userId: freezed == userId
@@ -259,6 +267,14 @@ class _$ApiLoginInfoCopyWithImpl<$Res, $Val extends ApiLoginInfo>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
+      photo: freezed == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      usePhoto: freezed == usePhoto
+          ? _value.usePhoto
+          : usePhoto // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -276,7 +292,9 @@ abstract class _$$ApiLoginInfoImplCopyWith<$Res>
       @JsonKey(name: 'token') String? token,
       @JsonKey(name: 'expires_at') int? expiresAt,
       @JsonKey(name: 'alias') String? alias,
-      @JsonKey(name: 'avatar') String? avatar});
+      @JsonKey(name: 'avatar') String? avatar,
+      @JsonKey(name: 'photo') String? photo,
+      @JsonKey(name: 'photo_use') bool? usePhoto});
 }
 
 /// @nodoc
@@ -295,6 +313,8 @@ class __$$ApiLoginInfoImplCopyWithImpl<$Res>
     Object? expiresAt = freezed,
     Object? alias = freezed,
     Object? avatar = freezed,
+    Object? photo = freezed,
+    Object? usePhoto = freezed,
   }) {
     return _then(_$ApiLoginInfoImpl(
       userId: freezed == userId
@@ -317,6 +337,14 @@ class __$$ApiLoginInfoImplCopyWithImpl<$Res>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String?,
+      photo: freezed == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      usePhoto: freezed == usePhoto
+          ? _value.usePhoto
+          : usePhoto // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -329,7 +357,9 @@ class _$ApiLoginInfoImpl extends _ApiLoginInfo with DiagnosticableTreeMixin {
       @JsonKey(name: 'token') required this.token,
       @JsonKey(name: 'expires_at') required this.expiresAt,
       @JsonKey(name: 'alias') required this.alias,
-      @JsonKey(name: 'avatar') required this.avatar})
+      @JsonKey(name: 'avatar') required this.avatar,
+      @JsonKey(name: 'photo') required this.photo,
+      @JsonKey(name: 'photo_use') required this.usePhoto})
       : super._();
 
   factory _$ApiLoginInfoImpl.fromJson(Map<String, dynamic> json) =>
@@ -350,10 +380,16 @@ class _$ApiLoginInfoImpl extends _ApiLoginInfo with DiagnosticableTreeMixin {
   @override
   @JsonKey(name: 'avatar')
   final String? avatar;
+  @override
+  @JsonKey(name: 'photo')
+  final String? photo;
+  @override
+  @JsonKey(name: 'photo_use')
+  final bool? usePhoto;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ApiLoginInfo(userId: $userId, token: $token, expiresAt: $expiresAt, alias: $alias, avatar: $avatar)';
+    return 'ApiLoginInfo(userId: $userId, token: $token, expiresAt: $expiresAt, alias: $alias, avatar: $avatar, photo: $photo, usePhoto: $usePhoto)';
   }
 
   @override
@@ -365,7 +401,9 @@ class _$ApiLoginInfoImpl extends _ApiLoginInfo with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('token', token))
       ..add(DiagnosticsProperty('expiresAt', expiresAt))
       ..add(DiagnosticsProperty('alias', alias))
-      ..add(DiagnosticsProperty('avatar', avatar));
+      ..add(DiagnosticsProperty('avatar', avatar))
+      ..add(DiagnosticsProperty('photo', photo))
+      ..add(DiagnosticsProperty('usePhoto', usePhoto));
   }
 
   @override
@@ -378,13 +416,16 @@ class _$ApiLoginInfoImpl extends _ApiLoginInfo with DiagnosticableTreeMixin {
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
             (identical(other.alias, alias) || other.alias == alias) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar));
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.photo, photo) || other.photo == photo) &&
+            (identical(other.usePhoto, usePhoto) ||
+                other.usePhoto == usePhoto));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userId, token, expiresAt, alias, avatar);
+  int get hashCode => Object.hash(
+      runtimeType, userId, token, expiresAt, alias, avatar, photo, usePhoto);
 
   @JsonKey(ignore: true)
   @override
@@ -406,7 +447,9 @@ abstract class _ApiLoginInfo extends ApiLoginInfo {
           @JsonKey(name: 'token') required final String? token,
           @JsonKey(name: 'expires_at') required final int? expiresAt,
           @JsonKey(name: 'alias') required final String? alias,
-          @JsonKey(name: 'avatar') required final String? avatar}) =
+          @JsonKey(name: 'avatar') required final String? avatar,
+          @JsonKey(name: 'photo') required final String? photo,
+          @JsonKey(name: 'photo_use') required final bool? usePhoto}) =
       _$ApiLoginInfoImpl;
   const _ApiLoginInfo._() : super._();
 
@@ -428,6 +471,12 @@ abstract class _ApiLoginInfo extends ApiLoginInfo {
   @override
   @JsonKey(name: 'avatar')
   String? get avatar;
+  @override
+  @JsonKey(name: 'photo')
+  String? get photo;
+  @override
+  @JsonKey(name: 'photo_use')
+  bool? get usePhoto;
   @override
   @JsonKey(ignore: true)
   _$$ApiLoginInfoImplCopyWith<_$ApiLoginInfoImpl> get copyWith =>

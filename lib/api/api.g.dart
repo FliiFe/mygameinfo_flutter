@@ -25,6 +25,8 @@ _$ApiLoginInfoImpl _$$ApiLoginInfoImplFromJson(Map<String, dynamic> json) =>
       expiresAt: json['expires_at'] as int?,
       alias: json['alias'] as String?,
       avatar: json['avatar'] as String?,
+      photo: json['photo'] as String?,
+      usePhoto: json['photo_use'] as bool?,
     );
 
 Map<String, dynamic> _$$ApiLoginInfoImplToJson(_$ApiLoginInfoImpl instance) =>
@@ -34,6 +36,8 @@ Map<String, dynamic> _$$ApiLoginInfoImplToJson(_$ApiLoginInfoImpl instance) =>
       'expires_at': instance.expiresAt,
       'alias': instance.alias,
       'avatar': instance.avatar,
+      'photo': instance.photo,
+      'photo_use': instance.usePhoto,
     };
 
 _$AccuracyRatioInfoImpl _$$AccuracyRatioInfoImplFromJson(

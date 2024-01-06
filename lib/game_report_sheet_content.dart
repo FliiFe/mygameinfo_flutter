@@ -49,23 +49,30 @@ class GameReportSheetContent extends StatelessWidget {
                 ),
                 child: SafeArea(
                   bottom: false,
-                  child: SingleChildScrollView(
-                    child: SafeArea(
-                      top: false,
-                      child: Column(children: [
-                        if (gameReport.teams != null &&
-                            shortReport.game != "solo") ...[
-                          TeamRanking(teams: gameReport.teams!),
-                          TeamEffectiveness(
-                              gameReport: gameReport, shortReport: shortReport),
-                        ],
-                        PersonalStats(
-                            gameReport: gameReport, shortReport: shortReport),
-                        SoloRankings(
-                          gameReport: gameReport,
-                          shortReport: shortReport,
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: SafeArea(
+                        top: false,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: min(900, MediaQuery.of(context).size.width)),
+                          child: Column(children: [
+                            if (gameReport.teams != null &&
+                                shortReport.game != "solo") ...[
+                              TeamRanking(teams: gameReport.teams!),
+                              TeamEffectiveness(
+                                  gameReport: gameReport,
+                                  shortReport: shortReport),
+                            ],
+                            PersonalStats(
+                                gameReport: gameReport,
+                                shortReport: shortReport),
+                            SoloRankings(
+                              gameReport: gameReport,
+                              shortReport: shortReport,
+                            ),
+                          ]),
                         ),
-                      ]),
+                      ),
                     ),
                   ),
                 ),

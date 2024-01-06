@@ -85,6 +85,8 @@ class ApiLoginInfo with _$ApiLoginInfo {
     @JsonKey(name: 'expires_at') required int? expiresAt,
     @JsonKey(name: 'alias') required String? alias,
     @JsonKey(name: 'avatar') required String? avatar,
+    @JsonKey(name: 'photo') required String? photo,
+    @JsonKey(name: 'photo_use') required bool? usePhoto,
   }) = _ApiLoginInfo;
   factory ApiLoginInfo.fromJson(Map<String, Object?> json) =>
       _$ApiLoginInfoFromJson(json);
@@ -120,7 +122,9 @@ Future<ApiLoginInfo> login(int userid, String password) async {
         token: jsonResponse["token"],
         expiresAt: jsonResponse["expires_at"],
         alias: jsonResponse["data"]["alias"],
-        avatar: jsonResponse["data"]["avatar"]);
+        avatar: jsonResponse["data"]["avatar"],
+        photo: jsonResponse["data"]["photo"],
+        usePhoto: jsonResponse["data"]["photo_use"] == 1 ? true : false);
   } else {
     throw Exception('Failed to login, response code: ${response.statusCode}');
   }

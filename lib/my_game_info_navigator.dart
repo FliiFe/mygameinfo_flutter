@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mygameinfo/api/api.dart';
-import 'package:mygameinfo/game_report_sheet_content.dart';
-import 'package:mygameinfo/main.dart';
 import 'package:sheet/route.dart';
 
 import 'home_tab.dart';

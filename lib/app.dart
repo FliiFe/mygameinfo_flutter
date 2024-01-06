@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:mygameinfo/api/api.dart';
-import 'package:mygameinfo/home_tab.dart';
 import 'package:mygameinfo/my_game_info_navigator.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:redux/redux.dart';
