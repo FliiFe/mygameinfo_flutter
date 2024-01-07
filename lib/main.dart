@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mygameinfo/api/api.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_persist/redux_persist.dart';
@@ -39,7 +41,9 @@ void main() async {
   // Load initial state
   final initialState = await persistor.load();
   final store = Store(reducer,
-      initialState: initialState?.copyWith(taskCount: 0) ?? AppState.initialState(),
+      initialState:
+          initialState?.copyWith(taskCount: 0) ??
+              AppState.initialState(),
       middleware: middlewares + [persistor.createMiddleware()]);
 
   void mainIsolateUpdateTask([Timer? timer]) {
@@ -48,6 +52,35 @@ void main() async {
       store.dispatch(StartAutomaticApiHydrationAction());
     }
   }
+
+  void mainIsolatePassiveFetchTask([ShortGameReport? currentlyChecking]) {
+    if (store.state.loggedIn) {
+      if (currentlyChecking == null) {
+        final firstUnavailShortReport = store.state.shortGameReports
+            .firstWhereOrNull((element) =>
+                element.logId != null &&
+                !store.state.gameReports.containsKey(element.logId));
+        if (firstUnavailShortReport == null) {
+          print("There is no game report to fetch!");
+          return;
+        }
+        print(
+            "Passive game report fetch for ${firstUnavailShortReport.logId.toString()}");
+        store.dispatch(FetchGameReport(shortReport: firstUnavailShortReport));
+        Timer(const Duration(seconds: 1), () { mainIsolatePassiveFetchTask(firstUnavailShortReport); });
+      } else {
+        if (store.state.gameReports.containsKey(currentlyChecking.logId) && currentlyChecking.logId != null) {
+          print("Passive fetch succeeded for ${currentlyChecking.logId.toString()}");
+          Timer(Duration.zero, mainIsolatePassiveFetchTask);
+        } else {
+          Timer(const Duration(seconds: 1), () { mainIsolatePassiveFetchTask(currentlyChecking); });
+        }
+      }
+    } else {
+      Timer(const Duration(seconds: 5), mainIsolatePassiveFetchTask);
+    }
+  }
+  mainIsolatePassiveFetchTask();
 
   mainIsolateUpdateTask();
   Timer.periodic(const Duration(minutes: 5), mainIsolateUpdateTask);

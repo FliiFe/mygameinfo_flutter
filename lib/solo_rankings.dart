@@ -26,6 +26,8 @@ class SoloRankings extends StatelessWidget {
               padding: EdgeInsets.all(isMaterial(context) ? 8.0 : 0)
                   .copyWith(bottom: 0, top: 0),
               child: PlatformListTile(
+                material: (ctx, platform) => MaterialListTileData(
+                    contentPadding: const EdgeInsets.only(left: 15, right: 15)),
                 title: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -56,9 +58,20 @@ class SoloRankings extends StatelessWidget {
           })
         ];
         return PlatformWidget(
-          cupertino: (context, platform) => CupertinoListSection.insetGrouped(
-            header: const Text("Solo scores"),
-            children: listElements,
+          cupertino: (context, platform) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  "Solo scores",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+              ),
+              CupertinoListSection.insetGrouped(
+                children: listElements,
+              ),
+            ],
           ),
           material: (context, platform) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +80,7 @@ class SoloRankings extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
                   "Solo scores",
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
               ...listElements,

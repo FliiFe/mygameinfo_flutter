@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
@@ -425,7 +426,15 @@ Future<GameReport> fetchGameReport(
   );
 
   if (response.statusCode == 200) {
-    final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    if (jsonResponse['data']?['teams'] is List<dynamic>) {
+      print("The teams object was an array, converting!");
+      final copy = jsonResponse['data']?['teams'] as List<dynamic>;
+      jsonResponse['data']?['teams'] = <String, dynamic>{};
+      copy.forEachIndexed((index, element) {
+        jsonResponse['data']?['teams'][index.toString()] = element;
+      });
+    }
     if (jsonResponse["data"] != null) {
       return GameReport.fromJson(jsonResponse["data"]);
     }

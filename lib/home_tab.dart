@@ -30,7 +30,71 @@ class HomeTab extends StatelessWidget {
       }
     }
 
-    var scrollView = NestedScrollView(
+    var customScrollView = CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        //if (!isMaterial(context))
+        CupertinoSliverRefreshControl(
+          onRefresh: onRefresh,
+        ),
+        SliverToBoxAdapter(
+          child: Center(
+              child: StoreConnector<AppState, (AccuracyRatioInfo?, bool)>(
+                  converter: (store) =>
+                      (store.state.accuracyRatioInfo, store.state.loggedIn),
+                  builder: (ctx, tuple) {
+                    final tagStats = tuple.$1;
+                    final loggedIn = tuple.$2;
+                    if (loggedIn == false) {
+                      return Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: PlatformElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute<Widget>(
+                                  builder: (BuildContext ctx) {
+                                    return StoreProvider<AppState>(
+                                        store:
+                                            StoreProvider.of<AppState>(context),
+                                        child: const LoginPage());
+                                  },
+                                ),
+                              );
+                            },
+                            child: const Text('Login')),
+                      );
+                    }
+                    if (tagStats == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(children: [
+                              const Text("TAG RATIO"),
+                              Text(tagStats.tagRatio ?? "N/A",
+                                  style: const TextStyle(fontSize: 40)),
+                            ]),
+                            Column(children: [
+                              const Text("ACCURACY"),
+                              Text(tagStats.tagAccuracy ?? "N/A",
+                                  style: const TextStyle(fontSize: 40)),
+                            ])
+                          ]),
+                    );
+                  })),
+        ),
+        const SliverToBoxAdapter(
+          child: LevelCard(),
+        ),
+        const ShortGameReportListView(),
+        const SliverToBoxAdapter(child: SafeArea(child: SizedBox.shrink())),
+      ],
+    );
+    return NestedScrollView(
       headerSliverBuilder: (ctx, scrolled) => <Widget>[
         SliverPersistentHeader(
           pinned: true,
@@ -38,82 +102,22 @@ class HomeTab extends StatelessWidget {
         ),
       ],
       body: UnconstrainedBox(
-      constrainedAxis: Axis.vertical,
+        constrainedAxis: Axis.vertical,
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: min(900, MediaQuery.of(context).size.width)),
-          child: CustomScrollView(
-            slivers: [
-              if (!isMaterial(context))
-                CupertinoSliverRefreshControl(
-                  onRefresh: onRefresh,
-                ),
-              SliverToBoxAdapter(
-                child: Center(
-                    child: StoreConnector<AppState, (AccuracyRatioInfo?, bool)>(
-                        converter: (store) =>
-                            (store.state.accuracyRatioInfo, store.state.loggedIn),
-                        builder: (ctx, tuple) {
-                          final tagStats = tuple.$1;
-                          final loggedIn = tuple.$2;
-                          if (loggedIn == false) {
-                            return Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: PlatformElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      CupertinoPageRoute<Widget>(
-                                        builder: (BuildContext ctx) {
-                                          return StoreProvider<AppState>(
-                                              store: StoreProvider.of<AppState>(
-                                                  context),
-                                              child: const LoginPage());
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: const Text('Login')),
-                            );
-                          }
-                          if (tagStats == null) {
-                            return const SizedBox.shrink();
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(children: [
-                                    const Text("TAG RATIO"),
-                                    Text(tagStats.tagRatio ?? "N/A",
-                                        style: const TextStyle(fontSize: 40)),
-                                  ]),
-                                  Column(children: [
-                                    const Text("ACCURACY"),
-                                    Text(tagStats.tagAccuracy ?? "N/A",
-                                        style: const TextStyle(fontSize: 40)),
-                                  ])
-                                ]),
-                          );
-                        })),
-              ),
-              const SliverToBoxAdapter(
-                child: LevelCard(),
-              ),
-              const ShortGameReportListView(),
-            ],
-          ),
-        ),
+            constraints: BoxConstraints(
+                maxWidth: min(900, MediaQuery.of(context).size.width)),
+            child: customScrollView),
       ),
     );
-    return PlatformWidget(
-      cupertino: (ctx, platform) => scrollView,
-      material: (ctx, platform) => RefreshIndicator(
-        edgeOffset: sliverDelegate.maxExtent,
-        onRefresh: onRefresh,
-        child: scrollView,
-      ),
-    );
+
+    // return PlatformWidget(
+    //   cupertino: (ctx, platform) => scrollView,
+    //   material: (ctx, platform) => RefreshIndicator(
+    //     edgeOffset: sliverDelegate.maxExtent,
+    //     onRefresh: onRefresh,
+    //     child: scrollView,
+    //   ),
+    // );
   }
 }
 
@@ -184,11 +188,10 @@ class CustomPersistentSliverDelegate extends SliverPersistentHeaderDelegate {
                                   progress +
                               (screenWidth / 2 - imageWidth / 2) *
                                   (1 - progress)),
-                      child: StoreConnector<AppState, (ApiLoginInfo?, CDNInfo?)>(
-                          converter: (store) => (
-                                store.state.loginInfo,
-                                store.state.cdnInfo
-                              ),
+                      child: StoreConnector<AppState,
+                              (ApiLoginInfo?, CDNInfo?)>(
+                          converter: (store) =>
+                              (store.state.loginInfo, store.state.cdnInfo),
                           builder: (ctx, tuple) {
                             final loginInfo = tuple.$1;
                             final uid = loginInfo?.userId;

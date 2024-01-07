@@ -46,11 +46,15 @@ class ShortGameReportListView extends StatelessWidget {
                 Text(
                   formatter.format(reportDateTime),
                 ),
-                Text(
-                  report.siteName ?? "",
+                Flexible(
+                  child: Text(
+                    report.siteName ?? "",
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
+            material: (ctx, platform) => MaterialListTileData(contentPadding: const EdgeInsets.only(left: 15, right: 15)),
             trailing: const CupertinoListTileChevron(),
             onTap: () {
               StoreProvider.of<AppState>(context)
