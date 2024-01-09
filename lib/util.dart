@@ -4,12 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-Color toPastel(Color originalColor, {bool light = false}) {
+Color toBackgroundColor(Color originalColor, {bool light = false}) {
   List<double> hsl = rgbToHsl(originalColor);
 
   double pastelSaturation = 1.0;
   double pastelLightness = 0.85;
   pastelLightness = light ? pastelLightness : 1 - pastelLightness;
+
+  Color pastelColor = hslToColor(hsl[0], pastelSaturation, pastelLightness);
+
+  return pastelColor;
+}
+
+Color toPastelText(Color originalColor, {bool light = false}) {
+  List<double> hsl = rgbToHsl(originalColor);
+
+  double pastelSaturation = 0.7;
+  double pastelLightness = 0.85;
+  pastelLightness = !light ? pastelLightness : 1 - pastelLightness;
 
   Color pastelColor = hslToColor(hsl[0], pastelSaturation, pastelLightness);
 

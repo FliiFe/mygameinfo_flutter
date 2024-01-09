@@ -1093,6 +1093,139 @@ abstract class _PerformLoginAction implements PerformLoginAction {
 }
 
 /// @nodoc
+mixin _$LevelDescriptionInfo {
+  List<LevelDescription> get levelDescriptions =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $LevelDescriptionInfoCopyWith<LevelDescriptionInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LevelDescriptionInfoCopyWith<$Res> {
+  factory $LevelDescriptionInfoCopyWith(LevelDescriptionInfo value,
+          $Res Function(LevelDescriptionInfo) then) =
+      _$LevelDescriptionInfoCopyWithImpl<$Res, LevelDescriptionInfo>;
+  @useResult
+  $Res call({List<LevelDescription> levelDescriptions});
+}
+
+/// @nodoc
+class _$LevelDescriptionInfoCopyWithImpl<$Res,
+        $Val extends LevelDescriptionInfo>
+    implements $LevelDescriptionInfoCopyWith<$Res> {
+  _$LevelDescriptionInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? levelDescriptions = null,
+  }) {
+    return _then(_value.copyWith(
+      levelDescriptions: null == levelDescriptions
+          ? _value.levelDescriptions
+          : levelDescriptions // ignore: cast_nullable_to_non_nullable
+              as List<LevelDescription>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LevelDescriptionInfoImplCopyWith<$Res>
+    implements $LevelDescriptionInfoCopyWith<$Res> {
+  factory _$$LevelDescriptionInfoImplCopyWith(_$LevelDescriptionInfoImpl value,
+          $Res Function(_$LevelDescriptionInfoImpl) then) =
+      __$$LevelDescriptionInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<LevelDescription> levelDescriptions});
+}
+
+/// @nodoc
+class __$$LevelDescriptionInfoImplCopyWithImpl<$Res>
+    extends _$LevelDescriptionInfoCopyWithImpl<$Res, _$LevelDescriptionInfoImpl>
+    implements _$$LevelDescriptionInfoImplCopyWith<$Res> {
+  __$$LevelDescriptionInfoImplCopyWithImpl(_$LevelDescriptionInfoImpl _value,
+      $Res Function(_$LevelDescriptionInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? levelDescriptions = null,
+  }) {
+    return _then(_$LevelDescriptionInfoImpl(
+      levelDescriptions: null == levelDescriptions
+          ? _value._levelDescriptions
+          : levelDescriptions // ignore: cast_nullable_to_non_nullable
+              as List<LevelDescription>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LevelDescriptionInfoImpl implements _LevelDescriptionInfo {
+  const _$LevelDescriptionInfoImpl(
+      {required final List<LevelDescription> levelDescriptions})
+      : _levelDescriptions = levelDescriptions;
+
+  final List<LevelDescription> _levelDescriptions;
+  @override
+  List<LevelDescription> get levelDescriptions {
+    if (_levelDescriptions is EqualUnmodifiableListView)
+      return _levelDescriptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_levelDescriptions);
+  }
+
+  @override
+  String toString() {
+    return 'LevelDescriptionInfo(levelDescriptions: $levelDescriptions)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LevelDescriptionInfoImpl &&
+            const DeepCollectionEquality()
+                .equals(other._levelDescriptions, _levelDescriptions));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_levelDescriptions));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LevelDescriptionInfoImplCopyWith<_$LevelDescriptionInfoImpl>
+      get copyWith =>
+          __$$LevelDescriptionInfoImplCopyWithImpl<_$LevelDescriptionInfoImpl>(
+              this, _$identity);
+}
+
+abstract class _LevelDescriptionInfo implements LevelDescriptionInfo {
+  const factory _LevelDescriptionInfo(
+          {required final List<LevelDescription> levelDescriptions}) =
+      _$LevelDescriptionInfoImpl;
+
+  @override
+  List<LevelDescription> get levelDescriptions;
+  @override
+  @JsonKey(ignore: true)
+  _$$LevelDescriptionInfoImplCopyWith<_$LevelDescriptionInfoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$RegisterCDNInfoAction {
   CDNInfo get cdnInfo => throw _privateConstructorUsedError;
 

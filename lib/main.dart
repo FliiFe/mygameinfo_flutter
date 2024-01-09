@@ -54,7 +54,7 @@ void main() async {
   }
 
   void mainIsolatePassiveFetchTask([ShortGameReport? currentlyChecking]) {
-    if (store.state.loggedIn) {
+    if (store.state.loggedIn && store.state.shortGameReports.isNotEmpty) {
       if (currentlyChecking == null) {
         final firstUnavailShortReport = store.state.shortGameReports
             .firstWhereOrNull((element) =>

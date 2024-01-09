@@ -36,6 +36,8 @@ mixin _$AppState {
   CDNInfo? get cdnInfo => throw _privateConstructorUsedError;
   Map<int, GameReport> get gameReports => throw _privateConstructorUsedError;
   int get taskCount => throw _privateConstructorUsedError;
+  List<LevelDescription> get levelDescriptions =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -62,7 +64,8 @@ abstract class $AppStateCopyWith<$Res> {
       int lastLoginAttempt,
       CDNInfo? cdnInfo,
       Map<int, GameReport> gameReports,
-      int taskCount});
+      int taskCount,
+      List<LevelDescription> levelDescriptions});
 
   $ApiLoginInfoCopyWith<$Res>? get loginInfo;
   $AccuracyRatioInfoCopyWith<$Res>? get accuracyRatioInfo;
@@ -98,6 +101,7 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
     Object? cdnInfo = freezed,
     Object? gameReports = null,
     Object? taskCount = null,
+    Object? levelDescriptions = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -156,6 +160,10 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
           ? _value.taskCount
           : taskCount // ignore: cast_nullable_to_non_nullable
               as int,
+      levelDescriptions: null == levelDescriptions
+          ? _value.levelDescriptions
+          : levelDescriptions // ignore: cast_nullable_to_non_nullable
+              as List<LevelDescription>,
     ) as $Val);
   }
 
@@ -242,7 +250,8 @@ abstract class _$$AppStateImplCopyWith<$Res>
       int lastLoginAttempt,
       CDNInfo? cdnInfo,
       Map<int, GameReport> gameReports,
-      int taskCount});
+      int taskCount,
+      List<LevelDescription> levelDescriptions});
 
   @override
   $ApiLoginInfoCopyWith<$Res>? get loginInfo;
@@ -281,6 +290,7 @@ class __$$AppStateImplCopyWithImpl<$Res>
     Object? cdnInfo = freezed,
     Object? gameReports = null,
     Object? taskCount = null,
+    Object? levelDescriptions = null,
   }) {
     return _then(_$AppStateImpl(
       email: null == email
@@ -339,6 +349,10 @@ class __$$AppStateImplCopyWithImpl<$Res>
           ? _value.taskCount
           : taskCount // ignore: cast_nullable_to_non_nullable
               as int,
+      levelDescriptions: null == levelDescriptions
+          ? _value._levelDescriptions
+          : levelDescriptions // ignore: cast_nullable_to_non_nullable
+              as List<LevelDescription>,
     ));
   }
 }
@@ -361,9 +375,11 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
       this.lastLoginAttempt = 0,
       this.cdnInfo,
       final Map<int, GameReport> gameReports = const {},
-      this.taskCount = 0})
+      this.taskCount = 0,
+      final List<LevelDescription> levelDescriptions = const []})
       : _shortGameReports = shortGameReports,
-        _gameReports = gameReports;
+        _gameReports = gameReports,
+        _levelDescriptions = levelDescriptions;
 
   factory _$AppStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppStateImplFromJson(json);
@@ -417,10 +433,19 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
   @override
   @JsonKey()
   final int taskCount;
+  final List<LevelDescription> _levelDescriptions;
+  @override
+  @JsonKey()
+  List<LevelDescription> get levelDescriptions {
+    if (_levelDescriptions is EqualUnmodifiableListView)
+      return _levelDescriptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_levelDescriptions);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppState(email: $email, password: $password, loggedIn: $loggedIn, loginInfo: $loginInfo, accuracyRatioInfo: $accuracyRatioInfo, userLevelInfo: $userLevelInfo, achievements: $achievements, shortGameReports: $shortGameReports, error: $error, loading: $loading, lastLoginAttempt: $lastLoginAttempt, cdnInfo: $cdnInfo, gameReports: $gameReports, taskCount: $taskCount)';
+    return 'AppState(email: $email, password: $password, loggedIn: $loggedIn, loginInfo: $loginInfo, accuracyRatioInfo: $accuracyRatioInfo, userLevelInfo: $userLevelInfo, achievements: $achievements, shortGameReports: $shortGameReports, error: $error, loading: $loading, lastLoginAttempt: $lastLoginAttempt, cdnInfo: $cdnInfo, gameReports: $gameReports, taskCount: $taskCount, levelDescriptions: $levelDescriptions)';
   }
 
   @override
@@ -441,7 +466,8 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
       ..add(DiagnosticsProperty('lastLoginAttempt', lastLoginAttempt))
       ..add(DiagnosticsProperty('cdnInfo', cdnInfo))
       ..add(DiagnosticsProperty('gameReports', gameReports))
-      ..add(DiagnosticsProperty('taskCount', taskCount));
+      ..add(DiagnosticsProperty('taskCount', taskCount))
+      ..add(DiagnosticsProperty('levelDescriptions', levelDescriptions));
   }
 
   @override
@@ -472,7 +498,9 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
             const DeepCollectionEquality()
                 .equals(other._gameReports, _gameReports) &&
             (identical(other.taskCount, taskCount) ||
-                other.taskCount == taskCount));
+                other.taskCount == taskCount) &&
+            const DeepCollectionEquality()
+                .equals(other._levelDescriptions, _levelDescriptions));
   }
 
   @JsonKey(ignore: true)
@@ -492,7 +520,8 @@ class _$AppStateImpl with DiagnosticableTreeMixin implements _AppState {
       lastLoginAttempt,
       cdnInfo,
       const DeepCollectionEquality().hash(_gameReports),
-      taskCount);
+      taskCount,
+      const DeepCollectionEquality().hash(_levelDescriptions));
 
   @JsonKey(ignore: true)
   @override
@@ -523,7 +552,8 @@ abstract class _AppState implements AppState {
       final int lastLoginAttempt,
       final CDNInfo? cdnInfo,
       final Map<int, GameReport> gameReports,
-      final int taskCount}) = _$AppStateImpl;
+      final int taskCount,
+      final List<LevelDescription> levelDescriptions}) = _$AppStateImpl;
 
   factory _AppState.fromJson(Map<String, dynamic> json) =
       _$AppStateImpl.fromJson;
@@ -556,6 +586,8 @@ abstract class _AppState implements AppState {
   Map<int, GameReport> get gameReports;
   @override
   int get taskCount;
+  @override
+  List<LevelDescription> get levelDescriptions;
   @override
   @JsonKey(ignore: true)
   _$$AppStateImplCopyWith<_$AppStateImpl> get copyWith =>

@@ -41,6 +41,10 @@ _$AppStateImpl _$$AppStateImplFromJson(Map<String, dynamic> json) =>
           ) ??
           const {},
       taskCount: json['taskCount'] as int? ?? 0,
+      levelDescriptions: (json['levelDescriptions'] as List<dynamic>?)
+              ?.map((e) => LevelDescription.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$AppStateImplToJson(_$AppStateImpl instance) =>
@@ -61,4 +65,6 @@ Map<String, dynamic> _$$AppStateImplToJson(_$AppStateImpl instance) =>
       'gameReports': instance.gameReports
           .map((k, e) => MapEntry(k.toString(), e.toJson())),
       'taskCount': instance.taskCount,
+      'levelDescriptions':
+          instance.levelDescriptions.map((e) => e.toJson()).toList(),
     };

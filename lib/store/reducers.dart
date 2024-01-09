@@ -64,6 +64,13 @@ class PerformLoginAction with _$PerformLoginAction {
 }
 
 @freezed
+class LevelDescriptionInfo with _$LevelDescriptionInfo {
+  const factory LevelDescriptionInfo(
+          {required List<LevelDescription> levelDescriptions}) =
+      _LevelDescriptionInfo;
+}
+
+@freezed
 class RegisterCDNInfoAction with _$RegisterCDNInfoAction {
   const factory RegisterCDNInfoAction({required CDNInfo cdnInfo}) =
       _RegisterCDNInfoAction;
@@ -186,6 +193,10 @@ AppState _loginActionCredentialSave(AppState state, PerformLoginAction action) {
   return state.copyWith(email: action.email, password: action.password);
 }
 
+AppState _levelDescription(AppState state, LevelDescriptionInfo action) {
+  return state.copyWith(levelDescriptions: action.levelDescriptions);
+}
+
 AppState _logoutAction(AppState state, LogOutAction action) {
   return AppState.initialState();
 }
@@ -250,10 +261,18 @@ void _startHydrationMiddleware(
     store.dispatch(IncreaseTaskCountAction());
     getCDNInfo().then((cdnInfo) {
       store.dispatch(DecreaseTaskCountAction());
-      return store.dispatch(RegisterCDNInfoAction(cdnInfo: cdnInfo));
+      store.dispatch(RegisterCDNInfoAction(cdnInfo: cdnInfo));
     }).onError((error, stackTrace) {
       return store.dispatch(RaiseExceptionAction(
           exception: error, message: "Could not get CDN info!"));
+    });
+    store.dispatch(IncreaseTaskCountAction());
+    fetchLevelInfo().then((value) {
+      store.dispatch(DecreaseTaskCountAction());
+      return store.dispatch(LevelDescriptionInfo(levelDescriptions: value));
+    }).onError((error, stackTrace) {
+      return store.dispatch(RaiseExceptionAction(
+          exception: error, message: "Could not get level descriptions!"));
     });
     store.dispatch(LoginResultAction.success);
     store.dispatch(SaveApiLoginInfoAction(loginInfo: store.state.loginInfo!));
@@ -332,6 +351,7 @@ final reducer = combineReducers([
   TypedReducer<AppState, IncreaseTaskCountAction>(_increaseTaskCount),
   TypedReducer<AppState, DecreaseTaskCountAction>(_decreaseTaskCount),
   TypedReducer<AppState, ResetTaskCountAction>(_resetTaskCount),
+  TypedReducer<AppState, LevelDescriptionInfo>(_levelDescription),
 ]);
 
 final middlewares = [

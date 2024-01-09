@@ -24,6 +24,7 @@ class AppState with _$AppState {
     CDNInfo? cdnInfo,
     @Default({}) Map<int, GameReport> gameReports,
     @Default(0) int taskCount,
+    @Default([]) List<LevelDescription> levelDescriptions,
   }) = _AppState;
 
   factory AppState.fromJson(Map<String, Object?> json) => _$AppStateFromJson(json);

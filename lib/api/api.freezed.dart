@@ -2677,3 +2677,257 @@ abstract class _GameReportPlayerStat implements GameReportPlayerStat {
   _$$GameReportPlayerStatImplCopyWith<_$GameReportPlayerStatImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+LevelDescription _$LevelDescriptionFromJson(Map<String, dynamic> json) {
+  return _LevelDescription.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LevelDescription {
+  @JsonKey(name: 'id')
+  int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'level')
+  int? get level => throw _privateConstructorUsedError;
+  @JsonKey(name: 'class_name')
+  String? get className => throw _privateConstructorUsedError;
+  @JsonKey(name: 'class_colour')
+  String? get classColour => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $LevelDescriptionCopyWith<LevelDescription> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LevelDescriptionCopyWith<$Res> {
+  factory $LevelDescriptionCopyWith(
+          LevelDescription value, $Res Function(LevelDescription) then) =
+      _$LevelDescriptionCopyWithImpl<$Res, LevelDescription>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'level') int? level,
+      @JsonKey(name: 'class_name') String? className,
+      @JsonKey(name: 'class_colour') String? classColour});
+}
+
+/// @nodoc
+class _$LevelDescriptionCopyWithImpl<$Res, $Val extends LevelDescription>
+    implements $LevelDescriptionCopyWith<$Res> {
+  _$LevelDescriptionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? level = freezed,
+    Object? className = freezed,
+    Object? classColour = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      level: freezed == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as int?,
+      className: freezed == className
+          ? _value.className
+          : className // ignore: cast_nullable_to_non_nullable
+              as String?,
+      classColour: freezed == classColour
+          ? _value.classColour
+          : classColour // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LevelDescriptionImplCopyWith<$Res>
+    implements $LevelDescriptionCopyWith<$Res> {
+  factory _$$LevelDescriptionImplCopyWith(_$LevelDescriptionImpl value,
+          $Res Function(_$LevelDescriptionImpl) then) =
+      __$$LevelDescriptionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'level') int? level,
+      @JsonKey(name: 'class_name') String? className,
+      @JsonKey(name: 'class_colour') String? classColour});
+}
+
+/// @nodoc
+class __$$LevelDescriptionImplCopyWithImpl<$Res>
+    extends _$LevelDescriptionCopyWithImpl<$Res, _$LevelDescriptionImpl>
+    implements _$$LevelDescriptionImplCopyWith<$Res> {
+  __$$LevelDescriptionImplCopyWithImpl(_$LevelDescriptionImpl _value,
+      $Res Function(_$LevelDescriptionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? level = freezed,
+    Object? className = freezed,
+    Object? classColour = freezed,
+  }) {
+    return _then(_$LevelDescriptionImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      level: freezed == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as int?,
+      className: freezed == className
+          ? _value.className
+          : className // ignore: cast_nullable_to_non_nullable
+              as String?,
+      classColour: freezed == classColour
+          ? _value.classColour
+          : classColour // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LevelDescriptionImpl
+    with DiagnosticableTreeMixin
+    implements _LevelDescription {
+  const _$LevelDescriptionImpl(
+      {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'level') this.level,
+      @JsonKey(name: 'class_name') this.className,
+      @JsonKey(name: 'class_colour') this.classColour});
+
+  factory _$LevelDescriptionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LevelDescriptionImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'id')
+  final int? id;
+  @override
+  @JsonKey(name: 'name')
+  final String? name;
+  @override
+  @JsonKey(name: 'level')
+  final int? level;
+  @override
+  @JsonKey(name: 'class_name')
+  final String? className;
+  @override
+  @JsonKey(name: 'class_colour')
+  final String? classColour;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'LevelDescription(id: $id, name: $name, level: $level, className: $className, classColour: $classColour)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LevelDescription'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('level', level))
+      ..add(DiagnosticsProperty('className', className))
+      ..add(DiagnosticsProperty('classColour', classColour));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LevelDescriptionImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.level, level) || other.level == level) &&
+            (identical(other.className, className) ||
+                other.className == className) &&
+            (identical(other.classColour, classColour) ||
+                other.classColour == classColour));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, level, className, classColour);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LevelDescriptionImplCopyWith<_$LevelDescriptionImpl> get copyWith =>
+      __$$LevelDescriptionImplCopyWithImpl<_$LevelDescriptionImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LevelDescriptionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LevelDescription implements LevelDescription {
+  const factory _LevelDescription(
+          {@JsonKey(name: 'id') final int? id,
+          @JsonKey(name: 'name') final String? name,
+          @JsonKey(name: 'level') final int? level,
+          @JsonKey(name: 'class_name') final String? className,
+          @JsonKey(name: 'class_colour') final String? classColour}) =
+      _$LevelDescriptionImpl;
+
+  factory _LevelDescription.fromJson(Map<String, dynamic> json) =
+      _$LevelDescriptionImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'id')
+  int? get id;
+  @override
+  @JsonKey(name: 'name')
+  String? get name;
+  @override
+  @JsonKey(name: 'level')
+  int? get level;
+  @override
+  @JsonKey(name: 'class_name')
+  String? get className;
+  @override
+  @JsonKey(name: 'class_colour')
+  String? get classColour;
+  @override
+  @JsonKey(ignore: true)
+  _$$LevelDescriptionImplCopyWith<_$LevelDescriptionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

@@ -41,7 +41,7 @@ class GameReportSheetContent extends StatelessWidget {
                   backgroundColor: CupertinoColors.systemGroupedBackground,
                   leading: SizedBox.shrink(),
                   middle: Pill(),
-                  trailing: CloseButton()),
+                  trailing: CustomCloseButton()),
               child: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: const SystemUiOverlayStyle(
                   systemNavigationBarColor: Colors.transparent,
@@ -49,8 +49,8 @@ class GameReportSheetContent extends StatelessWidget {
                 ),
                 child: SafeArea(
                   bottom: false,
-                  child: Center(
-                    child: SingleChildScrollView(
+                  child: SingleChildScrollView(
+                    child: Center(
                       child: SafeArea(
                         top: false,
                         child: ConstrainedBox(
@@ -287,8 +287,8 @@ class Pill extends StatelessWidget {
   }
 }
 
-class CloseButton extends StatelessWidget {
-  const CloseButton({
+class CustomCloseButton extends StatelessWidget {
+  const CustomCloseButton({
     super.key,
   });
 

@@ -212,3 +212,23 @@ Map<String, dynamic> _$$GameReportPlayerStatImplToJson(
       'photo_use': instance.photoUse,
       'photo_approved': instance.photoApproved,
     };
+
+_$LevelDescriptionImpl _$$LevelDescriptionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$LevelDescriptionImpl(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      level: json['level'] as int?,
+      className: json['class_name'] as String?,
+      classColour: json['class_colour'] as String?,
+    );
+
+Map<String, dynamic> _$$LevelDescriptionImplToJson(
+        _$LevelDescriptionImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'level': instance.level,
+      'class_name': instance.className,
+      'class_colour': instance.classColour,
+    };

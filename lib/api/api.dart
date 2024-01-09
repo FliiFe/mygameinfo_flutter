@@ -442,4 +442,36 @@ Future<GameReport> fetchGameReport(
   throw Exception("Could not get full report for the game: $shortReport");
 }
 
+
+@freezed
+class LevelDescription with _$LevelDescription {
+  const factory LevelDescription({
+    @JsonKey(name: 'id') int? id,
+    @JsonKey(name: 'name') String? name,
+    @JsonKey(name: 'level') int? level,
+    @JsonKey(name: 'class_name') String? className,
+    @JsonKey(name: 'class_colour') String? classColour,
+  }) = _LevelDescription;
+
+  factory LevelDescription.fromJson(Map<String, Object?> json) =>
+      _$LevelDescriptionFromJson(json);
+}
+
+Future<List<LevelDescription>> fetchLevelInfo() async {
+  final Uri url = Uri.parse(
+      "https://liveapi.mygameinfo.com/public/lasertag/next_rank/0");
+
+  final http.Response response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    final data = jsonResponse["data"];
+    if (data != null && data is List<dynamic>) {
+      return data.map((e) => LevelDescription.fromJson(e)).toList();
+    }
+    return [];
+  }
+  throw Exception("Could not get level info");
+}
+
 // vim: set ts=2 sw=2 ai:

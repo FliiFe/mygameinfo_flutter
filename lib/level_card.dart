@@ -1,12 +1,17 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mygameinfo/api/api.dart';
+import 'package:mygameinfo/game_report_sheet_content.dart';
 import 'package:mygameinfo/store/module.dart';
 import 'package:mygameinfo/util.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:sheet/route.dart';
 
 class LevelCard extends StatefulWidget {
   const LevelCard({super.key});
@@ -49,7 +54,23 @@ class _LevelCardState extends State<LevelCard> {
                     setState(() {
                       cardPressed = false;
                     });
-                    print("tapped up!");
+                    Navigator.of(context).push(
+                      CupertinoSheetRoute<void>(
+                        backgroundColor: CupertinoDynamicColor.resolve(
+                            CupertinoColors.systemGroupedBackground, context),
+                        stops: [0, 0.6, 1],
+                        initialStop: 0.6,
+                        builder: (ctx) {
+                          return StoreProvider<AppState>(
+                            store: StoreProvider.of<AppState>(context),
+                            child: const Material(
+                              elevation: 2,
+                              child: LevelSheetContent(),
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   },
                   onTapCancel: () {
                     setState(() {
@@ -81,7 +102,8 @@ class _LevelCardState extends State<LevelCard> {
                                     builder: (ctx, cdnInfo) {
                                       return Padding(
                                         padding: const EdgeInsets.all(8.0).add(
-                                            const EdgeInsets.only(right: 20, left: 10)),
+                                            const EdgeInsets.only(
+                                                right: 20, left: 10)),
                                         child: CachedNetworkImage(
                                             width: 80,
                                             imageUrl:
@@ -120,11 +142,12 @@ class _LevelCardState extends State<LevelCard> {
                             backgroundColor: CupertinoDynamicColor.resolve(
                                 CupertinoColors.systemGroupedBackground,
                                 context),
-                            progressColor: toPastel(
+                            progressColor: toBackgroundColor(
                                 Color(int.parse(
                                     "ff${levelInfo.classColour ?? "808080"}",
                                     radix: 16)),
-                                light: !(PlatformTheme.of(context)?.isDark ?? false)),
+                                light: !(PlatformTheme.of(context)?.isDark ??
+                                    false)),
                           ),
                         ],
                       ),
@@ -136,6 +159,137 @@ class _LevelCardState extends State<LevelCard> {
           ),
         );
       },
+    );
+  }
+}
+
+class LevelSheetContent extends StatelessWidget {
+  const LevelSheetContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGroupedBackground,
+      navigationBar: const CupertinoNavigationBar(
+          backgroundColor: CupertinoColors.systemGroupedBackground,
+          leading: SizedBox.shrink(),
+          middle: Pill(),
+          trailing: CustomCloseButton()),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarDividerColor: Colors.transparent,
+        ),
+        child: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
+            primary: false,
+            child: Center(
+              child: SafeArea(
+                top: false,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth: min(900, MediaQuery.of(context).size.width)),
+                  child: const Column(
+                    children: [
+                      LevelCardCarousel(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LevelCardCarousel extends StatelessWidget {
+  const LevelCardCarousel({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      shaderCallback: (rect) {
+        return const LinearGradient(colors: [
+          Colors.transparent,
+          Colors.black,
+          Colors.black,
+          Colors.transparent
+        ], stops: [
+          0,
+          0.05,
+          0.95,
+          1
+        ]).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+      },
+      blendMode: BlendMode.dstIn,
+      child: SizedBox(
+        height: 150,
+        child:
+            StoreConnector<AppState, (UserLevelInfo?, List<LevelDescription>)>(
+          converter: (store) =>
+              (store.state.userLevelInfo, store.state.levelDescriptions),
+          builder: (context, info) {
+            final userInfo = info.$1;
+            final levelDescs = info.$2;
+            return PageView(
+              controller: PageController(initialPage: (userInfo?.level ?? 1) - 1, viewportFraction: 0.9),
+              // controller: ScrollController(
+              //     initialScrollOffset:
+              //         screenWidth * 0.9 * ((userInfo?.level ?? 1) - 1)),
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              children: levelDescs.map((element) {
+                final levelColorStyle = TextStyle(
+                    color: toPastelText(
+                        Color(int.parse("ff${element.classColour ?? "808080"}",
+                            radix: 16)),
+                        light: !(PlatformTheme.of(context)?.isDark ?? false)));
+                return Card(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      StoreConnector<AppState, CDNInfo?>(
+                          converter: (store) => store.state.cdnInfo,
+                          builder: (ctx, cdnInfo) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CachedNetworkImage(
+                                  height: 100,
+                                  imageUrl:
+                                      "https:${cdnInfo?.cdn}/rankings/${element.id}-l.png"),
+                            );
+                          }),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Level ${element.level ?? "N/A"}"),
+                          Text(
+                            element.name ?? "N/A",
+                            style: levelColorStyle,
+                          ),
+                          Text(
+                            element.className ?? "N/A",
+                            style: levelColorStyle,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
+      ),
     );
   }
 }
